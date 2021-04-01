@@ -4,49 +4,17 @@ All URIs are relative to *https://rest-unstable.mainnet.cash*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateEscrow**](ContractApi.md#CreateEscrow) | **Post** /contract/escrow/create | Create an escrow contract
-[**EscrowFn**](ContractApi.md#EscrowFn) | **Post** /contract/escrow/call | Finalize an escrow contract
-[**EscrowUtxos**](ContractApi.md#EscrowUtxos) | **Post** /contract/escrow/utxos | List specific utxos in a contract
+[**ContractFn**](ContractApi.md#ContractFn) | **Post** /contract/call | Call a method on a contract
+[**ContractUtxos**](ContractApi.md#ContractUtxos) | **Post** /contract/utxos | List specific utxos on any contract
+[**CreateContract**](ContractApi.md#CreateContract) | **Post** /contract/create | Create a cashscript contract
 
 
 
-## CreateEscrow
+## ContractFn
 
-> ContractResponse CreateEscrow(ctx, escrowRequest)
+> ContractFnResponse ContractFn(ctx, contractFnRequest)
 
-Create an escrow contract
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**escrowRequest** | [**EscrowRequest**](EscrowRequest.md)| Request a new escrow contract | 
-
-### Return type
-
-[**ContractResponse**](ContractResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## EscrowFn
-
-> ContractFnResponse EscrowFn(ctx, contractFnRequest)
-
-Finalize an escrow contract
+Call a method on a contract
 
 ### Required Parameters
 
@@ -54,7 +22,7 @@ Finalize an escrow contract
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**contractFnRequest** | [**ContractFnRequest**](ContractFnRequest.md)| null | 
+**contractFnRequest** | [**ContractFnRequest**](ContractFnRequest.md)| Request a new cashscript contract | 
 
 ### Return type
 
@@ -74,13 +42,13 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## EscrowUtxos
+## ContractUtxos
 
-> UtxoResponse EscrowUtxos(ctx, contract)
+> UtxoResponse ContractUtxos(ctx, contract)
 
-List specific utxos in a contract
+List specific utxos on any contract
 
-Returns all UTXOs that can be spent by the  contract. Both confirmed and unconfirmed UTXOs are included. 
+Returns all UTXOs that can be spent by the contract. Both confirmed and unconfirmed UTXOs are included. The endpoint works with contracts generated from templates (i.e. escrow). 
 
 ### Required Parameters
 
@@ -93,6 +61,38 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**UtxoResponse**](UtxoResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CreateContract
+
+> ContractResponse CreateContract(ctx, contractRequest)
+
+Create a cashscript contract
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**contractRequest** | [**ContractRequest**](ContractRequest.md)| Request a new cashscript contract | 
+
+### Return type
+
+[**ContractResponse**](ContractResponse.md)
 
 ### Authorization
 

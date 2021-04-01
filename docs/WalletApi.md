@@ -8,9 +8,12 @@ Method | HTTP request | Description
 [**CreateWallet**](WalletApi.md#CreateWallet) | **Post** /wallet/create | create a new wallet
 [**DepositAddress**](WalletApi.md#DepositAddress) | **Post** /wallet/deposit_address | Get a deposit address in cash address format
 [**DepositQr**](WalletApi.md#DepositQr) | **Post** /wallet/deposit_qr | Get receiving cash address as a qrcode
+[**Info**](WalletApi.md#Info) | **Post** /wallet/info | Get information about a wallet
 [**MaxAmountToSend**](WalletApi.md#MaxAmountToSend) | **Post** /wallet/max_amount_to_send | Get maximum spendable amount
 [**Send**](WalletApi.md#Send) | **Post** /wallet/send | Send some amount to a given address
 [**SendMax**](WalletApi.md#SendMax) | **Post** /wallet/send_max | Send all available funds to a given address
+[**SignedMessageSign**](WalletApi.md#SignedMessageSign) | **Post** /wallet/signed/sign | Returns the message signature
+[**SignedMessageVerify**](WalletApi.md#SignedMessageVerify) | **Post** /wallet/signed/verify | Returns a boolean indicating whether message was valid for a given address
 [**Utxos**](WalletApi.md#Utxos) | **Post** /wallet/utxo | Get detailed information about unspent outputs (utxos)
 
 
@@ -59,7 +62,7 @@ create a new wallet
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**walletRequest** | [**WalletRequest**](WalletRequest.md)| Request a new new random wallet | 
+**walletRequest** | [**WalletRequest**](WalletRequest.md)| Request a new random wallet | 
 
 ### Return type
 
@@ -128,6 +131,38 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ScalableVectorGraphic**](ScalableVectorGraphic.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## Info
+
+> WalletInfo Info(ctx, serializedWallet)
+
+Get information about a wallet
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**serializedWallet** | [**SerializedWallet**](SerializedWallet.md)| The wallet to request information about, in serialized form.  | 
+
+### Return type
+
+[**WalletInfo**](WalletInfo.md)
 
 ### Authorization
 
@@ -219,11 +254,93 @@ Send all available funds to a given address
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**sendMaxRequest** | [**SendMaxRequest**](SendMaxRequest.md)| Request to all available funds to a given address | 
+**sendMaxRequest** | [**SendMaxRequest**](SendMaxRequest.md)| Request to send all available funds to a given address | 
 
 ### Return type
 
 [**SendMaxResponse**](SendMaxResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SignedMessageSign
+
+> SignedMessageResponse SignedMessageSign(ctx, optional)
+
+Returns the message signature
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+ **optional** | ***SignedMessageSignOpts** | optional parameters | nil if no parameters
+
+### Optional Parameters
+
+Optional parameters are passed through a pointer to a SignedMessageSignOpts struct
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **createSignedMessageRequest** | [**optional.Interface of CreateSignedMessageRequest**](CreateSignedMessageRequest.md)| Sign a message  | 
+
+### Return type
+
+[**SignedMessageResponse**](SignedMessageResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SignedMessageVerify
+
+> VerifySignedMessageResponse SignedMessageVerify(ctx, optional)
+
+Returns a boolean indicating whether message was valid for a given address
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+ **optional** | ***SignedMessageVerifyOpts** | optional parameters | nil if no parameters
+
+### Optional Parameters
+
+Optional parameters are passed through a pointer to a SignedMessageVerifyOpts struct
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **verifySignedMessageRequest** | [**optional.Interface of VerifySignedMessageRequest**](VerifySignedMessageRequest.md)| Sign a message  | 
+
+### Return type
+
+[**VerifySignedMessageResponse**](VerifySignedMessageResponse.md)
 
 ### Authorization
 

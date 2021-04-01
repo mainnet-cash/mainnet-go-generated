@@ -5,50 +5,108 @@ info:
   description: |
     A developer friendly bitcoin cash wallet api
 
-    This API is currently in active development, breaking changes may
-    be made prior to official release of version 1.
-
-    **Important:** This library is in active development
+    This API is currently in *active* development, breaking changes may
+    be made prior to official release of version 1.0.0.
   license:
     name: MIT Licence
     url: https://github.com/mainnet-cash/mainnet-js/blob/master/LICENSE
   termsOfService: https://mainnet.cash/terms/
   title: Mainnet Cash
-  version: 0.0.1-rc
+  version: 0.3.8
 externalDocs:
   description: Find out more about mainnet-js
   url: https://mainnet.cash
 servers:
 - description: unstable service (for development)
   url: https://rest-unstable.mainnet.cash/
-- description: local development server via npm run serve
+- description: local development server via `yarn api:serve`
   url: http://localhost:3000/
 tags:
-- description: Interact with wallets
+- description: Use Cashscript contracts
   externalDocs:
     description: Find out more
-    url: https://rest-unstable.mainnet.cash/api-docs/#/wallet/
-  name: wallet
+    url: https://rest-unstable.mainnet.cash/api-docs/#/contract/
+  name: contract
+- description: Use a stock escrow contract, with some helpers.
+  externalDocs:
+    description: Find out more
+    url: https://rest-unstable.mainnet.cash/api-docs/#/contract/escrow/
+  name: contract/escrow
+- description: Testnet faucet
+  externalDocs:
+    description: Find out more
+    url: https://rest-unstable.mainnet.cash/api-docs/#/faucet/
+  name: faucet
 - description: Mine regtest coins
   externalDocs:
     description: Find out more
     url: https://rest-unstable.mainnet.cash/api-docs/#/mine/
   name: mine
-- description: Interact with contracts
+- description: Stateless convenience utilities
   externalDocs:
     description: Find out more
-    url: https://rest-unstable.mainnet.cash/api-docs/#/contract/
-  name: contract
+    url: https://rest-unstable.mainnet.cash/api-docs/#/util/
+  name: util
+- description: Interact with wallets
+  externalDocs:
+    description: Find out more
+    url: https://rest-unstable.mainnet.cash/api-docs/#/wallet/
+  name: wallet
+- description: Interact with SLP functions of the wallets
+  externalDocs:
+    description: Find out more
+    url: https://rest-unstable.mainnet.cash/api-docs/#/wallet/slp
+  name: wallet/slp
+- description: Create webhooks
+  externalDocs:
+    description: Find out more
+    url: https://rest-unstable.mainnet.cash/api-docs/#/webhook/
+  name: webhook
 paths:
-  /contract/escrow/create:
+  /contract/call:
     post:
-      operationId: createEscrow
+      operationId: contractFn
+      requestBody:
+        content:
+          application/json:
+            example:
+              contractId: testnet:TURNME1UQmxaakEwT0dJelpHRXpOVEUzT1RObU5tVmtNVFJqWXpKbVpHVTBOakJpWldOak5XSTJOVGhrT1RFek9EUTBNMkk1WVRNd01EQTNNRGRoTm1FMzpNRE0wT1RjNFlXTTBOalJtTXpVNFlqSXpOV1l4TVRJeE1tVmlObVV3TVRkaFpqa3dNakUxWWprd1lqRm1aamMwTnpGa09XRmxNbUZpWWpWbE1Ea3lOak5pOk1qRTE=:Y29udHJhY3QgVHJhbnNmZXJXaXRoVGltZW91dChwdWJrZXkgc2VuZGVyLCBwdWJrZXkgcmVjaXBpZW50LCBpbnQgdGltZW91dCkgewogICAgZnVuY3Rpb24gdHJhbnNmZXIoc2lnIHJlY2lwaWVudFNpZykgewogICAgICAgIHJlcXVpcmUoY2hlY2tTaWcocmVjaXBpZW50U2lnLCByZWNpcGllbnQpKTsKICAgIH0KCiAgICBmdW5jdGlvbiB0aW1lb3V0KHNpZyBzZW5kZXJTaWcpIHsKICAgICAgICByZXF1aXJlKGNoZWNrU2lnKHNlbmRlclNpZywgc2VuZGVyKSk7CiAgICAgICAgcmVxdWlyZSh0eC50aW1lID49IHRpbWVvdXQpOwogICAgfQp9Cg==:1996128042
+              action: send
+              function: timeout
+              to:
+                unit: sat
+                cashaddr: bchtest:qpalhxhl05mlhms3ys43u76rn0ttdv3qg2usm4nm7t
+                value: 2000
+              feePerByte: 1
+            schema:
+              $ref: '#/components/schemas/ContractFnRequest'
+        description: Request a new cashscript contract
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractFnResponse'
+          description: successful operation
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error
+      summary: Call a method on a contract
+      tags:
+      - contract
+  /contract/create:
+    post:
+      operationId: createContract
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EscrowRequest'
-        description: Request a new escrow contract
+              $ref: '#/components/schemas/ContractRequest'
+        description: Request a new cashscript contract
         required: true
       responses:
         "200":
@@ -57,17 +115,72 @@ paths:
               schema:
                 $ref: '#/components/schemas/ContractResponse'
           description: successful operation
-        "405":
-          content: {}
-          description: Invalid input
-      summary: Create an escrow contract
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error
+      summary: Create a cashscript contract
       tags:
       - contract
-  /contract/escrow/utxos:
+  /contract/escrow/create:
     post:
-      description: "Returns all UTXOs that can be spent by the \ncontract. Both confirmed\
-        \ and unconfirmed UTXOs are included.\n"
-      operationId: escrowUtxos
+      operationId: createEscrow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EscrowRequest'
+        description: Request a new escrow contract from a template
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractResponse'
+          description: successful operation
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error
+      summary: Create an escrow contract
+      tags:
+      - contract/escrow
+  /contract/escrow/call:
+    post:
+      operationId: escrowFn
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EscrowFnRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractFnResponse'
+          description: successful operation
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error
+      summary: Finalize an escrow contract
+      tags:
+      - contract/escrow
+  /contract/utxos:
+    post:
+      description: |
+        Returns all UTXOs that can be spent by the
+        contract. Both confirmed and unconfirmed UTXOs are included. The endpoint works with contracts generated from templates (i.e. escrow).
+      operationId: contractUtxos
       requestBody:
         content:
           application/json:
@@ -84,36 +197,76 @@ paths:
         "405":
           content: {}
           description: Invalid input
-      summary: List specific utxos in a contract
+      summary: List specific utxos on any contract
       tags:
       - contract
-  /contract/escrow/call:
+  /faucet/get_testnet_bch:
     post:
-      operationId: escrowFn
+      operationId: getTestnetBch
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ContractFnRequest'
-        description: "null"
+              $ref: '#/components/schemas/GetTestnetBchRequest'
+        description: |
+          Request to bch faucet
         required: true
       responses:
         "200":
           content:
             application/json:
-              example:
-              - contractId: escrow:bchreg:qrc3vd0guh7mn9c9vl58rx6wcv92ld57aquqrre62e:bchreg:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0:bchreg:qznjmr5de89zv850lta6jeg5a6ftps4lyu58j8qcp8
-              - walletId: wif:regtest:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
-              - action: spend
               schema:
-                $ref: '#/components/schemas/ContractFnResponse'
-          description: successful operation
+                $ref: '#/components/schemas/GetTestnetBchResponse'
+          description: Successful operation
         "405":
           content: {}
           description: Invalid input
-      summary: Finalize an escrow contract
+      summary: |
+        Get testnet bch
       tags:
-      - contract
+      - faucet
+  /faucet/get_testnet_slp:
+    post:
+      operationId: getTestnetSlp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetTestnetSlpRequest'
+        description: |
+          Request to slp faucet
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTestnetSlpResponse'
+          description: Successful operation
+        "405":
+          content: {}
+          description: Invalid input
+      summary: |
+        Get testnet slp tokens
+      tags:
+      - faucet
+  /faucet/get_addresses:
+    post:
+      operationId: getAddresses
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAddressesResponse'
+          description: Successful operation
+        "405":
+          content: {}
+          description: Invalid input
+      summary: |
+        Get addresses to return back or donate the testnet bch and tokens
+      tags:
+      - faucet
   /mine:
     post:
       operationId: mine
@@ -138,6 +291,28 @@ paths:
       summary: Mine regtest coins to a specified address
       tags:
       - mine
+  /util/convert:
+    post:
+      operationId: convert
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertRequest'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                description: If a unit of account is passed, a plain number is returned.
+                type: number
+          description: successful operation
+        "405":
+          content: {}
+          description: Invalid input
+      summary: convert between units
+      tags:
+      - util
   /wallet/create:
     post:
       operationId: createWallet
@@ -146,7 +321,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/WalletRequest'
-        description: Request a new new random wallet
+        description: Request a new random wallet
         required: true
       responses:
         "200":
@@ -159,6 +334,28 @@ paths:
           content: {}
           description: Invalid input
       summary: create a new wallet
+      tags:
+      - wallet
+  /wallet/info:
+    post:
+      operationId: info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializedWallet'
+        description: |
+          The wallet to request information about, in serialized form.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WalletInfo'
+          description: |
+            Information about the wallet network, type, and keys
+      summary: Get information about a wallet
       tags:
       - wallet
   /wallet/balance:
@@ -184,6 +381,33 @@ paths:
                 type: number
           description: successful operation
       summary: Get total balance for wallet
+      tags:
+      - wallet
+  /wallet/max_amount_to_send:
+    post:
+      operationId: maxAmountToSend
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaxAmountToSendRequest'
+        description: get amount that will be spend with a spend max request. If a
+          unit type is specified, a numeric value will be returned.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+          description: transaction accepted
+        "400":
+          content: {}
+          description: Invalid Request
+        "418":
+          content: {}
+          description: Invalid network for given address
+      summary: Get maximum spendable amount
       tags:
       - wallet
   /wallet/deposit_address:
@@ -224,58 +448,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ScalableVectorGraphic'
-          description: "A Qr code image data encoded string in the src field suitable\
-            \ for inclusion in html using:\n   - \\<img src\\=\\\"{response.src}\"\
-            \\>                \n"
+          description: |
+            A Qr code image data encoded string in the src field suitable for inclusion in html using:
+               - \<img src\=\"{response.src}"\>
       summary: Get receiving cash address as a qrcode
-      tags:
-      - wallet
-  /wallet/max_amount_to_send:
-    post:
-      operationId: maxAmountToSend
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MaxAmountToSendRequest'
-        description: get amount that will be spend with a spend max request. If a
-          unit type is specified, a numeric value will be returned.
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BalanceResponse'
-          description: transaction accepted
-        "400":
-          content: {}
-          description: Invalid Request
-        "418":
-          content: {}
-          description: Invalid network for given address
-      summary: Get maximum spendable amount
-      tags:
-      - wallet
-  /wallet/utxo:
-    post:
-      operationId: utxos
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SerializedWallet'
-        description: |
-          Request detailed list of unspent transaction outputs
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UtxoResponse'
-          description: successful operation
-      summary: Get detailed information about unspent outputs (utxos)
       tags:
       - wallet
   /wallet/send:
@@ -312,7 +488,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SendMaxRequest'
-        description: Request to all available funds to a given address
+        description: Request to send all available funds to a given address
         required: true
       responses:
         "202":
@@ -327,12 +503,384 @@ paths:
       summary: Send all available funds to a given address
       tags:
       - wallet
+  /wallet/utxo:
+    post:
+      operationId: utxos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializedWallet'
+        description: |
+          Request detailed list of unspent transaction outputs
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UtxoResponse'
+          description: successful operation
+      summary: Get detailed information about unspent outputs (utxos)
+      tags:
+      - wallet
+  /wallet/signed/sign:
+    post:
+      operationId: signedMessageSign
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSignedMessageRequest'
+        description: |
+          Sign a message
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignedMessageResponse'
+          description: successful operation
+      summary: Returns the message signature
+      tags:
+      - wallet
+  /wallet/signed/verify:
+    post:
+      operationId: signedMessageVerify
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifySignedMessageRequest'
+        description: |
+          Sign a message
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifySignedMessageResponse'
+          description: successful operation
+      summary: Returns a boolean indicating whether message was valid for a given
+        address
+      tags:
+      - wallet
+  /wallet/slp/genesis:
+    post:
+      operationId: slpGenesis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlpGenesisRequest'
+        description: |
+          Request to create a new SLP token (genesis)
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpGenesisResponse'
+          description: successful operation
+      summary: Get created tokenId back and new slp token balance of the wallet
+      tags:
+      - wallet/slp
+  /wallet/slp/nft_parent_genesis:
+    post:
+      operationId: nftParentGenesis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlpGenesisRequest'
+        description: |
+          Request to create a new NFT parent token (genesis)
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpGenesisResponse'
+          description: successful operation
+      summary: Get created tokenId back and new NFT token balance of the wallet
+      tags:
+      - wallet/slp
+  /wallet/slp/nft_child_genesis:
+    post:
+      operationId: nftChildGenesis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlpGenesisRequest'
+        description: |
+          Request to create a new NFT child token (genesis) by consuming a parent token
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpGenesisResponse'
+          description: successful operation
+      summary: Get created tokenId back and new NFT child token balance of the wallet
+      tags:
+      - wallet/slp
+  /wallet/slp/mint:
+    post:
+      operationId: slpMint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlpMintRequest'
+        description: |
+          Request to mint more of SLP tokens
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpMintResponse'
+          description: successful operation
+      summary: Get created tokenId back and new slp token balance of the wallet
+      tags:
+      - wallet/slp
+  /wallet/slp/token_info:
+    post:
+      operationId: slpTokenInfo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlpTokenInfoRequest'
+        description: |
+          Request to get information about the token
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpTokenInfoResponse'
+          description: successful operation
+      summary: Get information about the token
+      tags:
+      - wallet/slp
+  /wallet/slp/all_balances:
+    post:
+      operationId: slpAllBalances
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializedWallet'
+        description: |
+          Request for a wallet slp balances
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpBalanceArrayResponse'
+          description: successful operation
+      summary: Get all slp balances of the wallet
+      tags:
+      - wallet/slp
+  /wallet/slp/balance:
+    post:
+      operationId: slpBalance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlpBalanceRequest'
+        description: |
+          Request for a wallet slp token balance
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpBalanceResponse'
+          description: successful operation
+      summary: Get total slp token balance of the wallet
+      tags:
+      - wallet/slp
+  /wallet/slp/deposit_address:
+    post:
+      operationId: slpDepositAddress
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializedWallet'
+        description: |
+          Request for an SLP deposit address given a wallet
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpDepositAddressResponse'
+          description: successful operation
+      summary: Get an SLP deposit address in cash address format
+      tags:
+      - wallet/slp
+  /wallet/slp/deposit_qr:
+    post:
+      operationId: slpDepositQr
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializedWallet'
+        description: |
+          Request for an SLP deposit cash address as a Quick Response code (qrcode)
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScalableVectorGraphic'
+          description: |
+            A Qr code image data encoded string in the src field suitable for inclusion in html using:
+               - \<img src\=\"{response.src}"\>
+      summary: Get an SLP receiving cash address as a qrcode
+      tags:
+      - wallet/slp
+  /wallet/slp/send:
+    post:
+      operationId: slpSend
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlpSendRequest'
+        description: place an SLP send request
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpSendResponse'
+          description: transaction accepted
+        "400":
+          content: {}
+          description: Invalid Request
+        "418":
+          content: {}
+          description: Invalid network for given address
+      summary: Send some SLP token amount to a given cash address
+      tags:
+      - wallet/slp
+  /wallet/slp/send_max:
+    post:
+      operationId: slpSendMax
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlpSendMaxRequest'
+        description: Request to send all available SLP funds to a given address
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpSendResponse'
+          description: transaction accepted
+        "400":
+          content: {}
+          description: Invalid Request
+      summary: Send all available SLP funds to a given address
+      tags:
+      - wallet/slp
+  /wallet/slp/utxo:
+    post:
+      operationId: slpUtxos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializedWallet'
+        description: |
+          Request detailed list of unspent SLP transaction outputs
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpUtxoResponse'
+          description: successful operation
+      summary: Get detailed information about unspent SLP outputs (utxos)
+      tags:
+      - wallet/slp
+  /wallet/slp/outpoints:
+    post:
+      operationId: slpOutpoints
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SerializedWallet'
+        description: |
+          Request of unspent SLP outpoints
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlpOutpointsResponse'
+          description: successful operation
+      summary: Get list of unspent SLP outpoints.
+      tags:
+      - wallet/slp
+  /webhook/watch_address:
+    post:
+      operationId: watchAddress
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatchAddressRequest'
+        description: |
+          Based on the 'type' parameter the webhook will be triggered to either post balance or raw transactions to the 'url' -
+          'transaction:in' for incoming only, 'transaction:out' for outgoing only and 'transaction:in,out' both for incoming and outgoing transactions.
+          'balance' will post the object according to 'BalanceResponse' schema
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatchAddressResponse'
+          description: Successful operation
+        "405":
+          content: {}
+          description: Invalid input
+      summary: |
+        Create a webhook to watch cashaddress balance and transactions.
+      tags:
+      - webhook
 components:
   schemas:
     Utxo:
+      allOf:
+      - $ref: '#/components/schemas/UnitType'
       example:
-        utxoId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0
-        unit: sat
+        utxoId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:21005
         index: 0.8008281904610115
         txId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f
         value: 100
@@ -346,49 +894,24 @@ components:
         value:
           example: 100
           type: number
-        unit:
-          description: Unit of account.
-          enum:
-          - bch
-          - usd
-          - bit
-          - bits
-          - sat
-          - sats
-          - satoshi
-          - satoshis
-          example: sat
-          type: string
         utxoId:
           description: serialized outpoint
-          example: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0
+          example: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:21005
           type: string
       required:
-      - amount
       - txId
       - utxoId
+      - value
     BalanceRequest:
+      allOf:
+      - $ref: '#/components/schemas/UnitType'
       example:
         walletId: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
-        unit: sat
       properties:
         walletId:
           description: |
-            ID that is returned in `wallet` field of /wallet call
+            The walletId to get a balance for.
           example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
-          type: string
-        unit:
-          description: Unit of account.
-          enum:
-          - bch
-          - usd
-          - bit
-          - bits
-          - sat
-          - sats
-          - satoshi
-          - satoshis
-          example: sat
           type: string
       required:
       - walletId
@@ -411,6 +934,69 @@ components:
           description: Amount in United States Dollars
           example: 438.02
           type: number
+    Error:
+      example:
+        message: An server error occurred
+        code: 500
+      properties:
+        message:
+          type: string
+        code:
+          type: number
+    WatchAddressRequest:
+      example:
+        recurrence: recurrent
+        cashaddr: bchtest:qzd0tv75gx6y0zspzwqpgkwkq0n72g8fsq2zch26s2
+        type: transaction:in,out
+        url: http://example.com/webhook
+        duration_sec: 86400
+      properties:
+        cashaddr:
+          description: |
+            Cash address to watch
+          example: bchtest:qzd0tv75gx6y0zspzwqpgkwkq0n72g8fsq2zch26s2
+          type: string
+        url:
+          description: Url to be called when configured action is triggered
+          example: http://example.com/webhook
+          type: string
+        type:
+          default: transaction:in,out
+          description: Type of watch operation
+          enum:
+          - transaction:in
+          - transaction:out
+          - transaction:in,out
+          - balance
+          example: transaction:in,out
+          type: string
+        recurrence:
+          default: once
+          description: Action recurrence. Indicates if webhook should be triggered
+            recurrently until expire or only once
+          enum:
+          - once
+          - recurrent
+          example: recurrent
+          type: string
+        duration_sec:
+          default: 86400
+          description: Duration of the webhook lifetime in seconds before it will
+            expire.
+          example: 86400
+          type: number
+      required:
+      - cashaddr
+      - type
+      - url
+    WatchAddressResponse:
+      example:
+        id: 1
+      properties:
+        id:
+          description: Webhook Id created in the system
+          example: 1
+          type: integer
     ZeroBalanceResponse:
       example:
         bch: 0
@@ -442,44 +1028,202 @@ components:
       - contractId
     EscrowRequest:
       example:
-        arbiterAddr: bchtest:qpsm4nm7talhxhl05mlhms3ys43u76rn0ttdv3qg2u
-        buyerAddr: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
-        sellerAddr: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
+        arbiterAddr: bchtest:qzspcywxmm4fqhf9kjrknrc3grsv2vukeqyjqla0nt
+        amount: 10000
+        buyerAddr: bchtest:qrnluuge56ahxsy6pplq43rva7k6s9dknu4p5278ah
+        sellerAddr: bchtest:qz00pk9lfs0k9f5vf3j8h66qfmqagk8nc56elq4dv2
       properties:
         buyerAddr:
           description: The cashaddress of the buyer
-          example: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
+          example: bchtest:qrnluuge56ahxsy6pplq43rva7k6s9dknu4p5278ah
         arbiterAddr:
           description: The cashaddress of the arbiter
-          example: bchtest:qpsm4nm7talhxhl05mlhms3ys43u76rn0ttdv3qg2u
+          example: bchtest:qzspcywxmm4fqhf9kjrknrc3grsv2vukeqyjqla0nt
         sellerAddr:
           description: The cashaddress of the seller
-          example: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
+          example: bchtest:qz00pk9lfs0k9f5vf3j8h66qfmqagk8nc56elq4dv2
+        amount:
+          description: Numeric amount to be transferred by the contract in satoshi,
+            amount must be less than 21 BCH.
+          example: 10000
+          type: number
       required:
+      - amount
       - arbiterAddr
       - buyerAddr
       - sellerAddr
+    ContractRequest:
+      allOf:
+      - $ref: '#/components/schemas/NetworkEnum'
+      example:
+        parameters:
+        - 03410ef048b3da351793f6ed14cc2fde460becc5b658d9138443b9a3000707a6a7
+        - 034978ac464f358b235f11212eb6e017af90215b90b1ff7471d9ae2abb5e09263b
+        - 215
+        script: |
+          contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
+              function transfer(sig recipientSig) {
+                  require(checkSig(recipientSig, recipient));
+              }
+
+              function timeout(sig senderSig) {
+                  require(checkSig(senderSig, sender));
+                  require(tx.time >= timeout);
+              }
+          }
+      properties:
+        script:
+          description: |
+            The smart contract in cashscript syntax
+          example: |
+            contract TransferWithTimeout(pubkey sender, pubkey recipient, int timeout) {
+                function transfer(sig recipientSig) {
+                    require(checkSig(recipientSig, recipient));
+                }
+
+                function timeout(sig senderSig) {
+                    require(checkSig(senderSig, sender));
+                    require(tx.time >= timeout);
+                }
+            }
+          type: string
+        parameters:
+          description: Parameters to construct the contract
+          example:
+          - 03410ef048b3da351793f6ed14cc2fde460becc5b658d9138443b9a3000707a6a7
+          - 034978ac464f358b235f11212eb6e017af90215b90b1ff7471d9ae2abb5e09263b
+          - 215
+          items:
+            description: Parameters passed as an array, where binary values are passed
+              as hex
+            type: string
+          type: array
+      required:
+      - network
+      - parameters
+      - script
     ContractResponse:
       example:
-        address: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
+        cashaddr: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
+        contractId: testnet:TVRVNExESTBNQ3d5TVRZc01Ua3hMRGMyTERNeExEazRMREUyTml3eE5EQXNOellzTVRBd0xERXlNeXd5TXpVc05qUXNOemdzTVRrekxESXhNaXc0T0N3eU5ETXNNVGszOk1qTXhMREkxTkN3eE1UTXNNalVzTVRZMkxERTROeXd4TVRVc05qUXNNVFUwTERnc01USTJMREV3TERFNU5pd3hNRGdzTWpNNUxERTNNeXd4Tmpnc01qRXNNVGd5TERFMU9RPT06TVRZd0xESTRMREUzTERFNU9Dd3lNaklzTWpNMExERTBOQ3c1TXl3ek55d3hPREFzTVRNMUxERXdOU3d4TkRNc01UY3NOalFzTWpJMExERTVOeXcxTVN3eE5UQXNNakF3Ok1UQXdNREE9Ok5EZ3dOVE01TWpreg==:cHJhZ21hIGNhc2hzY3JpcHQgXjAuNS4zOwogICAgICAgICAgICBjb250cmFjdCBlc2Nyb3coYnl0ZXMyMCBzZWxsZXJQa2gsIGJ5dGVzMjAgYnV5ZXJQa2gsIGJ5dGVzMjAgYXJiaXRlclBraCwgaW50IGNvbnRyYWN0QW1vdW50LCBpbnQgY29udHJhY3ROb25jZSkgewoKICAgICAgICAgICAgICAgIGZ1bmN0aW9uIHNwZW5kKHB1YmtleSBzaWduaW5nUGssIHNpZyBzLCBpbnQgYW1vdW50LCBpbnQgbm9uY2UpIHsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKGhhc2gxNjAoc2lnbmluZ1BrKSA9PSBhcmJpdGVyUGtoIHx8IGhhc2gxNjAoc2lnbmluZ1BrKSA9PSBidXllclBraCk7CiAgICAgICAgICAgICAgICAgICAgcmVxdWlyZShjaGVja1NpZyhzLCBzaWduaW5nUGspKTsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKGFtb3VudCA+PSBjb250cmFjdEFtb3VudCk7CiAgICAgICAgICAgICAgICAgICAgcmVxdWlyZShub25jZSA9PSBjb250cmFjdE5vbmNlKTsKICAgICAgICAgICAgICAgICAgICBieXRlczM0IG91dHB1dCA9IG5ldyBPdXRwdXRQMlBLSChieXRlczgoYW1vdW50KSwgc2VsbGVyUGtoKTsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKGhhc2gyNTYob3V0cHV0KSA9PSB0eC5oYXNoT3V0cHV0cyk7CiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgZnVuY3Rpb24gcmVmdW5kKHB1YmtleSBzaWduaW5nUGssIHNpZyBzLCBpbnQgYW1vdW50LCBpbnQgbm9uY2UpIHsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKGhhc2gxNjAoc2lnbmluZ1BrKSA9PSBhcmJpdGVyUGtofHxoYXNoMTYwKHNpZ25pbmdQaykgPT0gc2VsbGVyUGtoKTsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKGNoZWNrU2lnKHMsIHNpZ25pbmdQaykpOwogICAgICAgICAgICAgICAgICAgIHJlcXVpcmUoYW1vdW50ID49IGNvbnRyYWN0QW1vdW50KTsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKG5vbmNlID09IGNvbnRyYWN0Tm9uY2UpOwogICAgICAgICAgICAgICAgICAgIGJ5dGVzMzQgb3V0cHV0ID0gbmV3IE91dHB1dFAyUEtIKGJ5dGVzOChhbW91bnQpLCBidXllclBraCk7CiAgICAgICAgICAgICAgICAgICAgcmVxdWlyZShoYXNoMjU2KG91dHB1dCkgPT0gdHguaGFzaE91dHB1dHMpOwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAg:480539293
+      properties:
+        contractId:
+          description: |
+            serialized contract
+          example: testnet:TVRVNExESTBNQ3d5TVRZc01Ua3hMRGMyTERNeExEazRMREUyTml3eE5EQXNOellzTVRBd0xERXlNeXd5TXpVc05qUXNOemdzTVRrekxESXhNaXc0T0N3eU5ETXNNVGszOk1qTXhMREkxTkN3eE1UTXNNalVzTVRZMkxERTROeXd4TVRVc05qUXNNVFUwTERnc01USTJMREV3TERFNU5pd3hNRGdzTWpNNUxERTNNeXd4Tmpnc01qRXNNVGd5TERFMU9RPT06TVRZd0xESTRMREUzTERFNU9Dd3lNaklzTWpNMExERTBOQ3c1TXl3ek55d3hPREFzTVRNMUxERXdOU3d4TkRNc01UY3NOalFzTWpJMExERTVOeXcxTVN3eE5UQXNNakF3Ok1UQXdNREE9Ok5EZ3dOVE01TWpreg==:cHJhZ21hIGNhc2hzY3JpcHQgXjAuNS4zOwogICAgICAgICAgICBjb250cmFjdCBlc2Nyb3coYnl0ZXMyMCBzZWxsZXJQa2gsIGJ5dGVzMjAgYnV5ZXJQa2gsIGJ5dGVzMjAgYXJiaXRlclBraCwgaW50IGNvbnRyYWN0QW1vdW50LCBpbnQgY29udHJhY3ROb25jZSkgewoKICAgICAgICAgICAgICAgIGZ1bmN0aW9uIHNwZW5kKHB1YmtleSBzaWduaW5nUGssIHNpZyBzLCBpbnQgYW1vdW50LCBpbnQgbm9uY2UpIHsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKGhhc2gxNjAoc2lnbmluZ1BrKSA9PSBhcmJpdGVyUGtoIHx8IGhhc2gxNjAoc2lnbmluZ1BrKSA9PSBidXllclBraCk7CiAgICAgICAgICAgICAgICAgICAgcmVxdWlyZShjaGVja1NpZyhzLCBzaWduaW5nUGspKTsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKGFtb3VudCA+PSBjb250cmFjdEFtb3VudCk7CiAgICAgICAgICAgICAgICAgICAgcmVxdWlyZShub25jZSA9PSBjb250cmFjdE5vbmNlKTsKICAgICAgICAgICAgICAgICAgICBieXRlczM0IG91dHB1dCA9IG5ldyBPdXRwdXRQMlBLSChieXRlczgoYW1vdW50KSwgc2VsbGVyUGtoKTsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKGhhc2gyNTYob3V0cHV0KSA9PSB0eC5oYXNoT3V0cHV0cyk7CiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgZnVuY3Rpb24gcmVmdW5kKHB1YmtleSBzaWduaW5nUGssIHNpZyBzLCBpbnQgYW1vdW50LCBpbnQgbm9uY2UpIHsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKGhhc2gxNjAoc2lnbmluZ1BrKSA9PSBhcmJpdGVyUGtofHxoYXNoMTYwKHNpZ25pbmdQaykgPT0gc2VsbGVyUGtoKTsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKGNoZWNrU2lnKHMsIHNpZ25pbmdQaykpOwogICAgICAgICAgICAgICAgICAgIHJlcXVpcmUoYW1vdW50ID49IGNvbnRyYWN0QW1vdW50KTsKICAgICAgICAgICAgICAgICAgICByZXF1aXJlKG5vbmNlID09IGNvbnRyYWN0Tm9uY2UpOwogICAgICAgICAgICAgICAgICAgIGJ5dGVzMzQgb3V0cHV0ID0gbmV3IE91dHB1dFAyUEtIKGJ5dGVzOChhbW91bnQpLCBidXllclBraCk7CiAgICAgICAgICAgICAgICAgICAgcmVxdWlyZShoYXNoMjU2KG91dHB1dCkgPT0gdHguaGFzaE91dHB1dHMpOwogICAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAg:480539293
+          type: string
+        cashaddr:
+          description: The funding address for the contract
+          example: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
+    ContractFnRequest:
+      example:
+        minChange: 1.4658129805029452
+        feePerByte: 0.8008281904610115
+        function: function
+        hardcodedFee: 6.027456183070403
         contractId: contractId
+        withoutChange: false
+        action: send
+        arguments:
+        - arguments
+        - arguments
+        to: ""
+        utxoIds:
+        - 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:1000
+        - 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:1000
+        time: 5.637376656633329
+        opReturn:
+        - opReturn
+        - opReturn
+        age: 5.962133916683182
       properties:
         contractId:
           description: |
             serialized contract
           type: string
-        address:
-          description: The funding address for the contract
-          example: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
-    ContractFnRequest:
+        action:
+          default: send
+          description: In addition to `send`ing the built transaction, the built transaction
+            hex may be returned (without broadcasting) with `build` action, or the
+            [`meep 🔗`](https://github.com/gcash/meep) debugger command.
+          enum:
+          - build
+          - send
+          - meep
+          example: send
+          type: string
+        function:
+          description: Function to call on the cashscript contract.
+          type: string
+        arguments:
+          description: "Arguments for the contract function call as strings.  Binary\
+            \ data should be passed as hexidecimal. \nSignatures may be passed as\
+            \ wallet import format (WIF) or wallet strings (walletId). Cashscript\
+            \ expects `pubkey`s to be compressed 35 byte values.\n"
+          items:
+            type: string
+          type: array
+        to:
+          anyOf:
+          - $ref: '#/components/schemas/SendRequestItem'
+          - $ref: '#/components/schemas/SendRequestArray'
+          - $ref: '#/components/schemas/CashscriptReceipt'
+          - $ref: '#/components/schemas/CashscriptReceiptArray'
+          description: The output destination, as a SendRequest, cashscript style
+            output(s), array of either.
+        utxoIds:
+          description: Serialized utxoId(s) to spend from
+          items:
+            description: The hash of a transaction and index of the utxo and amount
+              in satoshi
+            example: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:1000
+            type: string
+          type: array
+        opReturn:
+          description: |
+            Add OP_RETURN outputs to the transaction. See [cashscript docs](https://cashscript.org/docs/sdk/transactions#withopreturn)
+          items:
+            type: string
+          type: array
+        feePerByte:
+          description: |
+            The withFeePerByte() function allows you to specify the fee per per bytes for the transaction. See [cashscript docs](https://cashscript.org/docs/sdk/transactions#withfeeperbyte)
+          type: number
+        hardcodedFee:
+          description: |
+            Specify a hardcoded fee to the transaction. By default the transaction fee is automatically calculated by the CashScript SDK. See [cashscript docs](https://cashscript.org/docs/sdk/transactions#withhardcodedfee)
+          type: number
+        minChange:
+          description: |
+            Set a threshold for including a change output. Any remaining amount under this threshold will be added to the transaction fee instead. See [cashscript docs](https://cashscript.org/docs/sdk/transactions#withminchange)
+          type: number
+        withoutChange:
+          default: false
+          description: |
+            Disable the change output. See [cashscript docs](https://cashscript.org/docs/sdk/transactions#withoutchange)
+          type: boolean
+        age:
+          description: |
+            Specify the minimum age of the transaction inputs. See [cashscript docs](https://cashscript.org/docs/sdk/transactions#withage)
+          type: number
+        time:
+          description: |
+            Specify the minimum block number that the transaction can be included in. See [cashscript docs](https://cashscript.org/docs/sdk/transactions#withtime)
+          type: number
+      required:
+      - contractId
+      - function
+      - to
+    EscrowFnRequest:
       example:
         walletId: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+        function: spend
         contractId: contractId
-        action: spend
+        action: build
+        to: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
         utxoIds:
-        - 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0
-        - 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0
-        getHexOnly: true
+        - 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:1000
+        - 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:1000
       properties:
         contractId:
           description: |
@@ -487,32 +1231,44 @@ components:
           type: string
         walletId:
           description: |
-            ID that is returned in `wallet` field of /wallet call
+            The walletId of the transaction signer.
           example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
           type: string
-        action:
-          description: Action for finalization of contract.
+        function:
+          description: Function to call on the escrow contract.
           enum:
           - spend
           - refund
           example: spend
           type: string
-        getHexOnly:
-          description: |
-            getHexOnly (default:false), if true, will cause only the transaction hex to be returned; if false, the transaction will be sent to the network
-          type: boolean
+        to:
+          description: Output address for the transaction
+          example: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
+          type: string
+        action:
+          description: In addition to `send`ing the built transaction, the built transaction
+            hex may be returned (without broadcasting) with `build` action, or the
+            [`meep 🔗`](https://github.com/gcash/meep) debugger command
+          enum:
+          - build
+          - send
+          - meep
+          type: string
         utxoIds:
           items:
-            description: The hash of a transaction and index of the utxo
-            example: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0
+            description: The hash of a transaction and index of the utxo and amount
+              in satoshi
+            example: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:1000
             type: string
           type: array
       required:
-      - action
       - contractId
+      - method
       - walletId
     ContractFnResponse:
       example:
+        debug: |
+          meep debug --tx=0200000001b3f2d1ce4951d104e8244310943c49cd8ea59b437fa5b794197fcffc32cfc28900000000b941b0e8a077ea6d70c757487a14c175c9ed21a5f4f54d0477578ac3bc89da86cbb5567f62eb9b46c49c328f02165a54a577cc4228fd2dd5a5497fc25a638f0205b1412103410ef048b3da351793f6ed14cc2fde460becc5b658d9138443b9a3000707a6a7514c5202d70014a72d8e8dc9ca261e8ffafba96514ee92b0c2bf271456b6b22042b90dd67bf2fbfb9aff7d37fbee11245379009c63557a5579ad547aa97b8777777767537a519d547a5479ad537aa9887cb16d5168feffffff0268420000000000001976a91456b6b22042b90dd67bf2fbfb9aff7d37fbee112488ac720e00000000000017a914d411d850ed6395e6e72a5e0497a54ab99a75b84387d7000000 --idx=0 --amt=21000 --pkscript=a914d411d850ed6395e6e72a5e0497a54ab99a75b84387
         contractId: contractId
         txId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f
         hex: 0200000001f6d804c0a2f33936dd8b535d1... bdf0e43b30135be5251
@@ -526,8 +1282,14 @@ components:
           example: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f
           type: string
         hex:
-          description: The transaction as bitcoin encoded hex
+          description: The transaction as bitcoin encoded hex.
           example: 0200000001f6d804c0a2f33936dd8b535d1... bdf0e43b30135be5251
+          type: string
+        debug:
+          description: if a debugger action is passed in the request, the result will
+            return here.
+          example: |
+            meep debug --tx=0200000001b3f2d1ce4951d104e8244310943c49cd8ea59b437fa5b794197fcffc32cfc28900000000b941b0e8a077ea6d70c757487a14c175c9ed21a5f4f54d0477578ac3bc89da86cbb5567f62eb9b46c49c328f02165a54a577cc4228fd2dd5a5497fc25a638f0205b1412103410ef048b3da351793f6ed14cc2fde460becc5b658d9138443b9a3000707a6a7514c5202d70014a72d8e8dc9ca261e8ffafba96514ee92b0c2bf271456b6b22042b90dd67bf2fbfb9aff7d37fbee11245379009c63557a5579ad547aa97b8777777767537a519d547a5479ad537aa9887cb16d5168feffffff0268420000000000001976a91456b6b22042b90dd67bf2fbfb9aff7d37fbee112488ac720e00000000000017a914d411d850ed6395e6e72a5e0497a54ab99a75b84387d7000000 --idx=0 --amt=21000 --pkscript=a914d411d850ed6395e6e72a5e0497a54ab99a75b84387
           type: string
     ScalableVectorGraphic:
       example:
@@ -536,9 +1298,10 @@ components:
         title: bitcoincash:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
       properties:
         src:
-          description: "A Qr code image data in svg format as utf-8 encoded string.\n\
-            Suitable for inclusion in html using:\n    - \\<img src\\=\\\"**data:image/svg+xml;base64,PD94bWwgdm...\
-            \ ==**\"\\>      \n"
+          description: |
+            A Qr code image data in svg format as utf-8 encoded string.
+            Suitable for inclusion in html using:
+                - \<img src\=\"**data:image/svg+xml;base64,PD94bWwgdm... ==**"\>
           example: data:image/svg+xml;base64,PD94bWwgdm... ==**
           type: string
         title:
@@ -556,12 +1319,14 @@ components:
       properties:
         walletId:
           description: |
-            ID that is returned in `wallet` field of /wallet call
+            The walletId of the sender
           example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
           type: string
         cashaddr:
           example: bchtest:qpalhxhl05mlhms3ys43u76rn0ttdv3qg2usm4nm7t
           type: string
+        options:
+          $ref: '#/components/schemas/SendRequestOptions'
       required:
       - cashaddr
       - walletId
@@ -576,10 +1341,9 @@ components:
           example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
           type: string
         output_count:
-          description: |
-            (optional) if sending all funds to multiple addresses, the
-            count of the number of address funds will be sent
-            to may be included.
+          description: "(optional) if sending all funds to multiple addresses, the\n\
+            count of the number of address funds will be sent\nto may be included.\
+            \            \n"
           format: int32
           type: integer
       required:
@@ -607,13 +1371,11 @@ components:
     UtxoResponse:
       example:
         utxos:
-        - utxoId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0
-          unit: sat
+        - utxoId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:21005
           index: 0.8008281904610115
           txId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f
           value: 100
-        - utxoId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0
-          unit: sat
+        - utxoId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:21005
           index: 0.8008281904610115
           txId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f
           value: 100
@@ -623,22 +1385,20 @@ components:
             $ref: '#/components/schemas/Utxo'
           type: array
     WalletResponse:
+      allOf:
+      - $ref: '#/components/schemas/NetworkEnum'
+      anyOf:
+      - $ref: '#/components/schemas/Wif'
+      - $ref: '#/components/schemas/WalletMnemonic'
       example:
         walletId: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
         cashaddr: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
-        wif: cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
         name: username1
-        network: testnet
       properties:
         walletId:
           description: |
-            ID that is returned in `wallet` field of /wallet call
+            All the information necessary to reconstruct a wallet, including private information, type and network.
           example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
-          type: string
-        wif:
-          description: |
-            The wallet in Wallet Import Format (WIF)
-          example: cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
           type: string
         name:
           description: User defined string for wallet
@@ -648,15 +1408,6 @@ components:
           description: |
             The address in cashaddr format.
           example: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
-          type: string
-        network:
-          description: network type
-          enum:
-          - mainnet
-          - testnet
-          - regtest
-          - simtest
-          example: testnet
           type: string
       type: object
     MineRequest:
@@ -671,9 +1422,57 @@ components:
           description: the number of blocks to mine
           example: 105
           type: number
-    WalletRequest:
+    ConvertRequest:
       example:
-        type: wif
+        from: bch
+        to: usd
+        value: 100
+      properties:
+        value:
+          example: 100
+          type: number
+        from:
+          description: Provided value unit of account.
+          enum:
+          - bch
+          - BCH
+          - usd
+          - USD
+          - bit
+          - bits
+          - sat
+          - SAT
+          - sats
+          - satoshi
+          - satoshis
+          example: bch
+          type: string
+        to:
+          description: Unit of account to be returned
+          enum:
+          - bch
+          - BCH
+          - usd
+          - USD
+          - bit
+          - bits
+          - sat
+          - SAT
+          - sats
+          - satoshi
+          - satoshis
+          example: usd
+          type: string
+      required:
+      - from
+      - to
+      - value
+    WalletRequest:
+      allOf:
+      - $ref: '#/components/schemas/NetworkEnum'
+      - $ref: '#/components/schemas/WalletType'
+      example:
+        type: seed
         network: testnet
         name: username1
       properties:
@@ -681,66 +1480,30 @@ components:
           description: User defined string for wallet
           example: username1
           type: string
-        network:
-          description: network type
-          enum:
-          - mainnet
-          - testnet
-          - regtest
-          - simtest
-          example: testnet
-          type: string
-        type:
-          description: Wallet type, either a single wallet with private key (wif)
-            or a Hierarchical Deterministic wallet determined from a seed.
-          enum:
-          - wif
-          - hd
-          example: wif
-          type: string
       type: object
     SendRequest:
       example:
         walletId: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
         to:
-        - cashaddr: bchtest:qpalhxhl05mlhms3ys43u76rn0ttdv3qg2usm4nm7t
           unit: sat
-          value: 100
-        - cashaddr: bchtest:qpalhxhl05mlhms3ys43u76rn0ttdv3qg2usm4nm7t
-          unit: sat
-          value: 100
+          cashaddr: bchtest:qpalhxhl05mlhms3ys43u76rn0ttdv3qg2usm4nm7t
+          value: 1000
       properties:
         walletId:
           description: |
-            ID that is returned in `wallet` field of /wallet call
+            The walletId of the source of funds to spend from.
           example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
           type: string
         to:
-          items:
-            $ref: '#/components/schemas/SendRequestItem'
-          type: array
+          anyOf:
+          - $ref: '#/components/schemas/SendRequestItem'
+          - $ref: '#/components/schemas/SendRequestArray'
+        options:
+          $ref: '#/components/schemas/SendRequestOptions'
       type: object
-    SerializedSendRequest:
-      properties:
-        walletId:
-          description: |
-            ID that is returned in `wallet` field of /wallet call
-          example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
-          type: string
-        to:
-          items:
-            description: |
-              And array of send parameters, in the form:
-              [cashaddr, value, unit]
-            example: '[bchtest:qpalhxhl05mlhms3ys43u76rn0ttdv3qg2usm4nm7t, 100, ''sat'']'
-            items: {}
-            type: array
-          type: array
     SendRequestItem:
-      example:
-        cashaddr: bchtest:qpalhxhl05mlhms3ys43u76rn0ttdv3qg2usm4nm7t
-        unit: sat
-        value: 100
+      allOf:
+      - $ref: '#/components/schemas/UnitType'
       properties:
         cashaddr:
           example: bchtest:qpalhxhl05mlhms3ys43u76rn0ttdv3qg2usm4nm7t
@@ -748,24 +1511,42 @@ components:
         value:
           example: 100
           type: number
-        unit:
-          description: Unit of account.
-          enum:
-          - bch
-          - usd
-          - bit
-          - bits
-          - sat
-          - sats
-          - satoshi
-          - satoshis
-          example: sat
-          type: string
       required:
       - cashaddr
       - unit
       - value
       type: object
+    SendRequestOptions:
+      properties:
+        utxoIds:
+          items:
+            $ref: '#/components/schemas/SerializedUtxo'
+          type: array
+        changeAddress:
+          description: |
+            Cash address to watch
+          example: bchtest:qzd0tv75gx6y0zspzwqpgkwkq0n72g8fsq2zch26s2
+          type: string
+      type: object
+    SlpSendRequestOptions:
+      example:
+        utxoIds:
+        - shm:43e724033d3c013cd385bb82d3c1c8a7b3f0e032bc82d9bf4980fca62220648a:0:30000
+        - shm:43e724033d3c013cd385bb82d3c1c8a7b3f0e032bc82d9bf4980fca62220648a:0:30000
+      properties:
+        utxoIds:
+          items:
+            $ref: '#/components/schemas/SlpSerializedUtxo'
+          type: array
+      type: object
+    SerializedUtxo:
+      description: Serialized unspent outpoint
+      example: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:5000
+      type: string
+    SlpSerializedUtxo:
+      description: Slp Serialized unspent outpoint
+      example: shm:43e724033d3c013cd385bb82d3c1c8a7b3f0e032bc82d9bf4980fca62220648a:0:30000
+      type: string
     SendMaxResponse:
       example:
         balance:
@@ -796,3 +1577,732 @@ components:
         balance:
           $ref: '#/components/schemas/BalanceResponse'
       type: object
+    SendRequestArray:
+      items:
+        $ref: '#/components/schemas/SendRequestItem'
+      type: array
+    CashscriptReceiptArray:
+      items:
+        $ref: '#/components/schemas/CashscriptReceipt'
+      type: array
+    CashscriptReceipt:
+      properties:
+        to:
+          example: bchtest:qpalhxhl05mlhms3ys43u76rn0ttdv3qg2usm4nm7t
+          type: string
+        amount:
+          example: 100
+          type: number
+    Cashaddr:
+      description: A bitcoin cash address
+      example: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys43u76rn0
+      type: string
+    NetworkEnum:
+      discriminator:
+        propertyName: network
+      properties:
+        network:
+          description: network type
+          enum:
+          - mainnet
+          - testnet
+          - regtest
+          example: testnet
+          type: string
+    UnitType:
+      discriminator:
+        propertyName: unit_type
+      properties:
+        unit:
+          description: Unit of account.
+          enum:
+          - bch
+          - BCH
+          - usd
+          - USD
+          - bit
+          - bits
+          - sat
+          - SAT
+          - sats
+          - satoshi
+          - satoshis
+          example: sat
+          type: string
+    WalletType:
+      discriminator:
+        propertyName: wallet_type
+      properties:
+        type:
+          description: Wallet type, either a mnemonic seed single address wallet,
+            a simple private key (wif) or a *Hierarchical Deterministic wallet determined
+            from a seed (not yet implemented)* .
+          enum:
+          - wif
+          - hd
+          - seed
+          - watch
+          example: seed
+          type: string
+    CreateSignedMessageRequest:
+      example:
+        walletId: wif:mainnet:L1TnU2zbNaAqMoVh65Cyvmcjzbrj41Gs9iTLcWbpJCMynXuap6UN
+        message: Chancellor on brink of second bailout for banks
+      properties:
+        walletId:
+          example: wif:mainnet:L1TnU2zbNaAqMoVh65Cyvmcjzbrj41Gs9iTLcWbpJCMynXuap6UN
+          type: string
+        message:
+          example: Chancellor on brink of second bailout for banks
+    SignedMessageResponse:
+      example:
+        signature: IA+oq/uGz4kKA2bNgxPcM+T216abyUiBhofMg1J8fC5BLAbbIpF2toCHaO7/LQAxhQBtu5D6ROq1JjXiRwPAASg=
+        raw:
+          schnorr: schnorr
+          der: der
+          ecdsa: ecdsa
+        details:
+          messageHash: messageHash
+          compressed: true
+          recoveryId: 0.8008281904610115
+      properties:
+        signature:
+          example: IA+oq/uGz4kKA2bNgxPcM+T216abyUiBhofMg1J8fC5BLAbbIpF2toCHaO7/LQAxhQBtu5D6ROq1JjXiRwPAASg=
+          type: string
+        raw:
+          $ref: '#/components/schemas/SignedMessageResponseRaw'
+        details:
+          $ref: '#/components/schemas/SignedMessageResponseDetails'
+    SignedMessageResponseRaw:
+      example:
+        schnorr: schnorr
+        der: der
+        ecdsa: ecdsa
+      properties:
+        ecdsa:
+          description: Elliptic Curve Digital messageHash encoded as a base64 string
+          type: string
+        schnorr:
+          description: |
+            Schnorr signature of the messageHash encoded as a base64 string, Note from libauth: Nonces are generated using RFC6979, where the Section 3.6, 16-byte ASCII "additional data" is set to Schnorr+SHA256, see https://libauth.org/interfaces/secp256k1.html#signmessagehashschnorr
+          type: string
+        der:
+          description: |
+            Signature of messageHash using DER (Distinguished Encoding Rules)
+          type: string
+    SignedMessageResponseDetails:
+      example:
+        messageHash: messageHash
+        compressed: true
+        recoveryId: 0.8008281904610115
+      properties:
+        recoveryId:
+          description: A tag used for recovering the public key from a compact signature.
+          type: number
+        compressed:
+          type: boolean
+        messageHash:
+          description: The double sha256 hash of the string encoded as Bitcoin Message
+            binary.
+          type: string
+    VerifySignedMessageRequest:
+      example:
+        walletId: watch:mainnet:qqehccy89v7ftlfgr9v0zvhjzyy7eatdkqt05lt3nw
+        message: Chancellor on brink of second bailout for banks
+        signature: IA+oq/uGz4kKA2bNgxPcM+T216abyUiBhofMg1J8fC5BLAbbIpF2toCHaO7/LQAxhQBtu5D6ROq1JjXiRwPAASg=
+      properties:
+        walletId:
+          example: watch:mainnet:bitcoincash:qqehccy89v7ftlfgr9v0zvhjzyy7eatdkqt05lt3nw
+          type: string
+        message:
+          example: Chancellor on brink of second bailout for banks
+          type: string
+        signature:
+          description: The base64 signature of the double sha265 hash of a bitcoin
+            message formatted string signed using the private key associated with
+            the related cashaddr
+          example: IA+oq/uGz4kKA2bNgxPcM+T216abyUiBhofMg1J8fC5BLAbbIpF2toCHaO7/LQAxhQBtu5D6ROq1JjXiRwPAASg=
+        publicKey:
+          description: If the publicKey is not recoverable from the signature, the
+            base64 encoded public key may be passed as instead of the walletId
+          type: string
+    VerifySignedMessageResponse:
+      example:
+        valid: true
+        details:
+          signatureValid: true
+          signatureType: signatureType
+          messageHash: messageHash
+          publicKeyHashMatch: true
+      properties:
+        valid:
+          description: Whether the message was signed by a given address
+          type: boolean
+        details:
+          $ref: '#/components/schemas/VerifySignedMessageResponseDetails'
+    VerifySignedMessageResponseDetails:
+      example:
+        signatureValid: true
+        signatureType: signatureType
+        messageHash: messageHash
+        publicKeyHashMatch: true
+      properties:
+        signatureType:
+          description: The type of signature passed
+          type: string
+        messageHash:
+          description: The double sha256 hash of the string encoded as Bitcoin Message
+            binary.
+          type: string
+        signatureValid:
+          description: A boolean indicating whether the signature is valid for the
+            message
+          type: boolean
+        publicKeyHashMatch:
+          description: A boolean indicating whether the publicKeyHash of a recoverable
+            signature matches the provided cashaddr, false otherwise
+          type: boolean
+    WalletInfo:
+      allOf:
+      - $ref: '#/components/schemas/NetworkEnum'
+      example:
+        cashaddr: bchtest:qpttdv3qg2usm4nm7talhxhl05mlhms3ys0d2lessf
+        isTestnet: true
+        name: ""
+        network: testnet
+        seed: empty solar plunge document bridge announce purse erupt joy vague illegal
+          angle
+        derivationPath: m/44'/0'/0'/0/0
+        publicKey: 04410ef048b3da351793f6ed14cc2fde460becc5b658d9138443b9a3000707a6a72e8d04d8a1634f35a05d6bd59d20c545e165f5d7dd6043fe3e843e7ec547b6df
+        publicKeyHash: 56b6b22042b90dd67bf2fbfb9aff7d37fbee1124
+        privateKey: 207efc5233effadd4f2df00410526dc4d0ca901ca8f0b7a1e92a42d3baf14e7f
+        privateKeyWif: cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+        walletId: wif:testnet:empty solar plunge document bridge announce purse erupt
+          joy vague illegal angle:m/44'/0'/0'/0/0
+        walletDbEntry: wif:testnet:empty solar plunge document bridge announce purse
+          erupt joy vague illegal angle:m/44'/0'/0'/0/0
+      properties:
+        cashaddr:
+          type: string
+        isTestnet:
+          description: Whether the agreed value of the network is zero. True for all
+            non-mainnet networks.
+          type: boolean
+        name:
+          type: string
+        publicKey:
+          type: string
+        publicKeyHash:
+          type: string
+        privateKey:
+          type: string
+        privateKeyWif:
+          type: string
+        seed:
+          type: string
+        derivationPath:
+          type: string
+        walletId:
+          type: string
+        walletDbEntry:
+          description: The serialized form with private information
+          type: string
+    WalletMnemonic:
+      discriminator:
+        propertyName: seed
+      properties:
+        seed:
+          type: string
+        derivationPath:
+          type: string
+    Wif:
+      properties:
+        wif:
+          description: |
+            The wallet in Wallet Import Format (WIF)
+          example: cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+          type: string
+    SlpGenesisRequest:
+      example:
+        walletId: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+        endBaton: false
+        ticker: MNC
+        documentHash: db4451f11eda33950670aaf59e704da90117ff7057283b032cfaec7779313916
+        tokenReceiverSlpAddr: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+        batonReceiverSlpAddr: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+        parentTokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+        initialAmount: "10000"
+        decimals: 0.8008281904610115
+        documentUrl: https://mainnet.cash
+        name: Mainnet coin
+        type: 1
+      properties:
+        walletId:
+          description: |
+            ID that is returned in `wallet` field of /wallet call
+          example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+          type: string
+        name:
+          example: Mainnet coin
+          type: string
+        ticker:
+          description: Token ticker
+          example: MNC
+          type: string
+        initialAmount:
+          description: Value is represented as a string to avoid precision loss
+          example: "10000"
+          type: string
+        decimals:
+          description: Indicates that 1 token is divisible into 10^decimals base units
+          type: number
+        documentUrl:
+          example: https://mainnet.cash
+          type: string
+        documentHash:
+          description: Document hash of the token. Empty or 64 character long hex
+            string.
+          example: db4451f11eda33950670aaf59e704da90117ff7057283b032cfaec7779313916
+          type: string
+        endBaton:
+          description: Indicates if token should not be 'mintable', e.g. total circulation
+            amount increased
+          example: false
+          type: boolean
+        type:
+          description: Token type. 0x01 Type1, 0x81 NFT Parent, 0x41 NFT Child
+          example: 1
+          type: number
+        tokenReceiverSlpAddr:
+          example: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+          type: string
+        batonReceiverSlpAddr:
+          example: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+          type: string
+        parentTokenId:
+          description: Identifier of the NFT parent token
+          example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          type: string
+      required:
+      - decimals
+      - initialAmount
+      - name
+      - ticker
+      - walletId
+    SlpGenesisResponse:
+      example:
+        tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+        balance:
+          ticker: MNC
+          tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          name: Mainnet coin
+          type: 1
+          value: "10000"
+      properties:
+        tokenId:
+          description: Full token identifier freshly created
+          example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          type: string
+        balance:
+          $ref: '#/components/schemas/SlpBalanceResponse'
+    SlpDepositAddressResponse:
+      example:
+        slpaddr: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+      properties:
+        slpaddr:
+          example: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+          type: string
+    SlpTokenInfoRequest:
+      example:
+        walletId: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+        tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+      properties:
+        walletId:
+          description: |
+            ID that is returned in `wallet` field of /wallet call
+          example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+          type: string
+        tokenId:
+          description: Token unique hexadecimal identifier, also the id of the token
+            creation transaction
+          example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          type: string
+      required:
+      - tokenId
+      - walletId
+    SlpTokenInfoResponse:
+      $ref: '#/components/schemas/SlpTokenInfoResponseItem'
+    SlpTokenInfoResponseItem:
+      example:
+        ticker: MNC
+        documentHash: db4451f11eda33950670aaf59e704da90117ff7057283b032cfaec7779313916
+        tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+        initialAmount: "10000"
+        decimals: 2
+        documentUrl: https://mainnet.cash
+        name: Mainnet coin
+        type: 1
+      properties:
+        name:
+          example: Mainnet coin
+          type: string
+        ticker:
+          description: Token ticker
+          example: MNC
+          type: string
+        tokenId:
+          example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          type: string
+        initialAmount:
+          description: Value is represented as a string to avoid precision loss
+          example: "10000"
+          type: string
+        decimals:
+          description: Indicates that 1 token is divisible into 10^decimals base units
+          example: 2
+          type: number
+        documentUrl:
+          example: https://mainnet.cash
+          type: string
+        documentHash:
+          description: Document hash of the token. Empty or 64 character long hex
+            string.
+          example: db4451f11eda33950670aaf59e704da90117ff7057283b032cfaec7779313916
+          type: string
+        type:
+          description: Token type. 0x01 Type1, 0x81 NFT Parent, 0x41 NFT Child
+          example: 1
+          type: number
+    SlpMintRequest:
+      example:
+        walletId: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+        endBaton: false
+        tokenReceiverSlpAddr: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+        tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+        batonReceiverSlpAddr: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+        value: "10000"
+      properties:
+        walletId:
+          description: |
+            ID that is returned in `wallet` field of /wallet call
+          example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+          type: string
+        value:
+          description: Value is represented as a string to avoid precision loss
+          example: "10000"
+          type: string
+        tokenId:
+          example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          type: string
+        endBaton:
+          description: Indicates if token should not be 'mintable' anymore, e.g. total
+            circulation amount increased
+          example: false
+          type: boolean
+        tokenReceiverSlpAddr:
+          example: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+          type: string
+        batonReceiverSlpAddr:
+          example: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+          type: string
+      required:
+      - tokenId
+      - value
+      - walletId
+    SlpMintResponse:
+      example:
+        balance:
+          ticker: MNC
+          tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          name: Mainnet coin
+          type: 1
+          value: "10000"
+        txId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+      properties:
+        txId:
+          description: |
+            Transaction id
+          example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          type: string
+        balance:
+          $ref: '#/components/schemas/SlpBalanceResponse'
+    SlpBalanceRequest:
+      example:
+        walletId: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+        tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+      properties:
+        walletId:
+          description: |
+            ID that is returned in `wallet` field of /wallet call
+          example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+          type: string
+        tokenId:
+          description: Full token identifier aka its genesis transaction id
+          example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          type: string
+      required:
+      - walletId
+    SlpBalanceArrayResponse:
+      items:
+        $ref: '#/components/schemas/SlpBalanceResponse'
+      type: array
+    SlpBalanceResponse:
+      example:
+        ticker: MNC
+        tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+        name: Mainnet coin
+        type: 1
+        value: "10000"
+      properties:
+        value:
+          description: A big number represented as a string to avoid precision loss
+          example: "10000"
+          format: float
+          type: string
+        ticker:
+          description: Token ticker
+          example: MNC
+          type: string
+        name:
+          description: Full name of the SLP token
+          example: Mainnet coin
+          type: string
+        tokenId:
+          description: Token unique hexadecimal identifier, also the id of the token
+            creation transaction
+          example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          type: string
+        type:
+          description: Token type. 0x01 Type1, 0x81 NFT Parent, 0x41 NFT Child
+          example: 1
+          type: number
+    SlpSendRequest:
+      example:
+        walletId: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+        options:
+          utxoIds:
+          - shm:43e724033d3c013cd385bb82d3c1c8a7b3f0e032bc82d9bf4980fca62220648a:0:30000
+          - shm:43e724033d3c013cd385bb82d3c1c8a7b3f0e032bc82d9bf4980fca62220648a:0:30000
+        to:
+        - tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          slpaddr: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+          value: 100
+        - tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          slpaddr: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+          value: 100
+      properties:
+        walletId:
+          description: |
+            ID that is returned in `wallet` field of /wallet call
+          example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+          type: string
+        to:
+          items:
+            $ref: '#/components/schemas/SlpSendRequestItem'
+          type: array
+        options:
+          $ref: '#/components/schemas/SlpSendRequestOptions'
+      required:
+      - to
+      - walletId
+      type: object
+    SlpSendRequestItem:
+      example:
+        tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+        slpaddr: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+        value: 100
+      properties:
+        slpaddr:
+          example: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+          type: string
+        value:
+          example: 100
+          type: number
+        tokenId:
+          description: Token unique hexadecimal identifier, also the id of the token
+            creation transaction
+          example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          type: string
+      required:
+      - slpaddr
+      - tokenId
+      - value
+      type: object
+    SlpSendResponse:
+      example:
+        balance:
+          ticker: MNC
+          tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          name: Mainnet coin
+          type: 1
+          value: "10000"
+        txId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f
+      properties:
+        txId:
+          description: The hash of a transaction
+          example: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f
+          type: string
+        balance:
+          $ref: '#/components/schemas/SlpBalanceResponse'
+      type: object
+    SlpSendMaxRequest:
+      example:
+        walletId: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+        tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+        slpaddr: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+        options:
+          utxoIds:
+          - shm:43e724033d3c013cd385bb82d3c1c8a7b3f0e032bc82d9bf4980fca62220648a:0:30000
+          - shm:43e724033d3c013cd385bb82d3c1c8a7b3f0e032bc82d9bf4980fca62220648a:0:30000
+      properties:
+        walletId:
+          description: |
+            The walletId of the sending wallet
+          example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+          type: string
+        slpaddr:
+          example: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+          type: string
+        tokenId:
+          description: Token unique hexadecimal identifier, also the id of the token
+            creation transaction
+          example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          type: string
+        options:
+          $ref: '#/components/schemas/SlpSendRequestOptions'
+      required:
+      - slpaddr
+      - tokenId
+      - walletId
+    SlpUtxoResponse:
+      example:
+        utxos:
+        - utxoId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0
+          ticker: MNC
+          tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          decimals: 2
+          index: 0.8008281904610115
+          txId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f
+          type: 1
+          value: "10000"
+          satoshis: 546
+        - utxoId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0
+          ticker: MNC
+          tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          decimals: 2
+          index: 0.8008281904610115
+          txId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f
+          type: 1
+          value: "10000"
+          satoshis: 546
+      properties:
+        utxos:
+          items:
+            $ref: '#/components/schemas/SlpUtxo'
+          type: array
+    SlpUtxo:
+      example:
+        utxoId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0
+        ticker: MNC
+        tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+        decimals: 2
+        index: 0.8008281904610115
+        txId: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f
+        type: 1
+        value: "10000"
+        satoshis: 546
+      properties:
+        index:
+          type: number
+        txId:
+          description: The hash of a transaction
+          example: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f
+          type: string
+        satoshis:
+          description: Locked satoshi
+          example: 546
+          type: number
+        utxoId:
+          description: serialized outpoint
+          example: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0
+          type: string
+        value:
+          description: Token amount represented as a string to avoid precision loss
+          example: "10000"
+          type: string
+        decimals:
+          description: Indicates that 1 token is divisible into 10^decimals base units
+          example: 2
+          type: number
+        ticker:
+          description: Token ticker
+          example: MNC
+          type: string
+        tokenId:
+          description: Token unique hexadecimal identifier, also the id of the token
+            creation transaction
+          example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+          type: string
+        type:
+          description: Token type. 0x01 Type1, 0x81 NFT Parent, 0x41 NFT Child
+          example: 1
+          type: number
+    SlpOutpointsResponse:
+      example:
+        outpoints:
+        - 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15:1
+        - 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15:1
+      properties:
+        outpoints:
+          items:
+            description: a list of slp outpoints
+            example: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15:1
+            type: string
+          type: array
+    GetTestnetBchRequest:
+      example:
+        cashaddr: bchtest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq27mxesg8
+      properties:
+        cashaddr:
+          description: Receiver's cashaddr
+          type: string
+    GetTestnetBchResponse:
+      example:
+        txId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+      properties:
+        txId:
+          description: Transaction id
+          type: string
+    GetTestnetSlpRequest:
+      example:
+        slpaddr: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+        tokenId: 132731d90ac4c88a79d55eae2ad92709b415de886329e958cf35fdd81ba34c15
+      properties:
+        slpaddr:
+          description: Receiver's slpaddr
+          type: string
+        tokenId:
+          description: Token unique hexadecimal identifier, also the id of the token
+            creation transaction
+          type: string
+      required:
+      - slpaddr
+      - tokenId
+    GetTestnetSlpResponse:
+      example:
+        txId: dc38ee5d4233163e69144e4ec6e49257d41f5605e297d05c0af8f1d81ae1a387
+      properties:
+        txId:
+          description: Transaction id
+          type: string
+    GetAddressesResponse:
+      example:
+        bchtest: bchtest:qzxkd5achtj6v46m9vdqv6gj2pvrac5q0qd2qqa2ga
+        slptest: slptest:qqm4gsaa2gvk7flvsvj7f0w4rlq32vqhkq32uar866
+      properties:
+        bchtest:
+          description: Cashaddr to return testnet BCH
+          type: string
+        slptest:
+          description: Slpaddr to return testnet SLP tokens
+          type: string

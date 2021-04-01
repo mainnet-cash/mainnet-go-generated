@@ -1,11 +1,11 @@
-# SerializedSendRequest
+# SlpBalanceRequest
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**WalletId** | **string** | ID that is returned in &#x60;wallet&#x60; field of /wallet call  | [optional] 
-**To** | [**[][]map[string]interface{}**](array.md) |  | [optional] 
+**WalletId** | **string** | ID that is returned in &#x60;wallet&#x60; field of /wallet call  | 
+**TokenId** | **string** | Full token identifier aka its genesis transaction id | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

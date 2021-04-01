@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Src** | **string** | A Qr code image data in svg format as utf-8 encoded string. Suitable for inclusion in html using:     - \\&lt;img src\\&#x3D;\\\&quot;**data:image/svg+xml;base64,PD94bWwgdm... &#x3D;&#x3D;**\&quot;\\&gt;        | [optional] 
+**Src** | **string** | A Qr code image data in svg format as utf-8 encoded string. Suitable for inclusion in html using:     - \\&lt;img src\\&#x3D;\\\&quot;**data:image/svg+xml;base64,PD94bWwgdm... &#x3D;&#x3D;**\&quot;\\&gt;  | [optional] 
 **Title** | **string** | hover text for graphic | [optional] 
 **Alt** | **string** | assistive text | [optional] 
 
