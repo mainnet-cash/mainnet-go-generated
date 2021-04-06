@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**NftParentGenesis**](WalletSlpApi.md#NftParentGenesis) | **Post** /wallet/slp/nft_parent_genesis | Get created tokenId back and new NFT token balance of the wallet
 [**SlpAllBalances**](WalletSlpApi.md#SlpAllBalances) | **Post** /wallet/slp/all_balances | Get all slp balances of the wallet
 [**SlpBalance**](WalletSlpApi.md#SlpBalance) | **Post** /wallet/slp/balance | Get total slp token balance of the wallet
+[**SlpCreateWallet**](WalletSlpApi.md#SlpCreateWallet) | **Post** /wallet/slp/create | create a new SLP wallet
 [**SlpDepositAddress**](WalletSlpApi.md#SlpDepositAddress) | **Post** /wallet/slp/deposit_address | Get an SLP deposit address in cash address format
 [**SlpDepositQr**](WalletSlpApi.md#SlpDepositQr) | **Post** /wallet/slp/deposit_qr | Get an SLP receiving cash address as a qrcode
 [**SlpGenesis**](WalletSlpApi.md#SlpGenesis) | **Post** /wallet/slp/genesis | Get created tokenId back and new slp token balance of the wallet
@@ -133,6 +134,38 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**SlpBalanceResponse**](SlpBalanceResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SlpCreateWallet
+
+> WalletResponse SlpCreateWallet(ctx, walletRequest)
+
+create a new SLP wallet
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**walletRequest** | [**WalletRequest**](WalletRequest.md)| Request a new SLP wallet | 
+
+### Return type
+
+[**WalletResponse**](WalletResponse.md)
 
 ### Authorization
 
