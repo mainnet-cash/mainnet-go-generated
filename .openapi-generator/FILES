@@ -77,6 +77,8 @@ docs/VerifySignedMessageResponseDetails.md
 docs/WalletApi.md
 docs/WalletInfo.md
 docs/WalletMnemonic.md
+docs/WalletNamedExistsRequest.md
+docs/WalletReplaceNamedRequest.md
 docs/WalletRequest.md
 docs/WalletResponse.md
 docs/WalletSlpApi.md
@@ -147,6 +149,8 @@ model_verify_signed_message_response.go
 model_verify_signed_message_response_details.go
 model_wallet_info.go
 model_wallet_mnemonic.go
+model_wallet_named_exists_request.go
+model_wallet_replace_named_request.go
 model_wallet_request.go
 model_wallet_response.go
 model_wallet_type.go

@@ -9,8 +9,8 @@
  */
 
 package openapi
-// WalletRequest struct for WalletRequest
-type WalletRequest struct {
+// WalletNamedExistsRequest struct for WalletNamedExistsRequest
+type WalletNamedExistsRequest struct {
 	// network type
 	Network string `json:"network,omitempty"`
 	// Wallet type, either a mnemonic seed single address wallet, a simple private key (wif) or a *Hierarchical Deterministic wallet determined from a seed (not yet implemented)* .

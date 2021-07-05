@@ -10,6 +10,8 @@ Method | HTTP request | Description
 [**DepositQr**](WalletApi.md#DepositQr) | **Post** /wallet/deposit_qr | Get receiving cash address as a qrcode
 [**Info**](WalletApi.md#Info) | **Post** /wallet/info | Get information about a wallet
 [**MaxAmountToSend**](WalletApi.md#MaxAmountToSend) | **Post** /wallet/max_amount_to_send | Get maximum spendable amount
+[**NamedExists**](WalletApi.md#NamedExists) | **Post** /wallet/named_exists | Check if a named wallet already exists
+[**ReplaceNamed**](WalletApi.md#ReplaceNamed) | **Post** /wallet/replace_named | Replace (recover) named wallet with a new walletId. If wallet with a provided name does not exist yet, it will be creted with a &#x60;walletId&#x60; supplied If wallet exists it will be overwritten without exception 
 [**Send**](WalletApi.md#Send) | **Post** /wallet/send | Send some amount to a given address
 [**SendMax**](WalletApi.md#SendMax) | **Post** /wallet/send_max | Send all available funds to a given address
 [**SignedMessageSign**](WalletApi.md#SignedMessageSign) | **Post** /wallet/signed/sign | Returns the message signature
@@ -195,6 +197,70 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**BalanceResponse**](BalanceResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## NamedExists
+
+> bool NamedExists(ctx, walletNamedExistsRequest)
+
+Check if a named wallet already exists
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**walletNamedExistsRequest** | [**WalletNamedExistsRequest**](WalletNamedExistsRequest.md)| Request parameters | 
+
+### Return type
+
+**bool**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ReplaceNamed
+
+> bool ReplaceNamed(ctx, walletReplaceNamedRequest)
+
+Replace (recover) named wallet with a new walletId. If wallet with a provided name does not exist yet, it will be creted with a `walletId` supplied If wallet exists it will be overwritten without exception 
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**walletReplaceNamedRequest** | [**WalletReplaceNamedRequest**](WalletReplaceNamedRequest.md)| Request parameters | 
+
+### Return type
+
+**bool**
 
 ### Authorization
 
