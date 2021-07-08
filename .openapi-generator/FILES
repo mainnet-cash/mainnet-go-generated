@@ -10,6 +10,7 @@ api_mine.go
 api_util.go
 api_wallet.go
 api_wallet_slp.go
+api_wallet_util.go
 api_webhook.go
 client.go
 configuration.go
@@ -26,6 +27,11 @@ docs/ContractResponse.md
 docs/ConvertRequest.md
 docs/CreateSignedMessageRequest.md
 docs/DepositAddressResponse.md
+docs/ElectrumRawTransaction.md
+docs/ElectrumRawTransactionScriptPubKey.md
+docs/ElectrumRawTransactionScriptSig.md
+docs/ElectrumRawTransactionVin.md
+docs/ElectrumRawTransactionVout.md
 docs/Error.md
 docs/EscrowFnRequest.md
 docs/EscrowRequest.md
@@ -69,6 +75,7 @@ docs/SlpUtxo.md
 docs/SlpUtxoResponse.md
 docs/UnitType.md
 docs/UtilApi.md
+docs/UtilDecodeTransactionRequest.md
 docs/Utxo.md
 docs/UtxoResponse.md
 docs/VerifySignedMessageRequest.md
@@ -83,6 +90,7 @@ docs/WalletRequest.md
 docs/WalletResponse.md
 docs/WalletSlpApi.md
 docs/WalletType.md
+docs/WalletUtilApi.md
 docs/WatchAddressRequest.md
 docs/WatchAddressResponse.md
 docs/WebhookApi.md
@@ -102,6 +110,11 @@ model_contract_response.go
 model_convert_request.go
 model_create_signed_message_request.go
 model_deposit_address_response.go
+model_electrum_raw_transaction.go
+model_electrum_raw_transaction_script_pub_key.go
+model_electrum_raw_transaction_script_sig.go
+model_electrum_raw_transaction_vin.go
+model_electrum_raw_transaction_vout.go
 model_error.go
 model_escrow_fn_request.go
 model_escrow_request.go
@@ -142,6 +155,7 @@ model_slp_token_info_response_item.go
 model_slp_utxo.go
 model_slp_utxo_response.go
 model_unit_type.go
+model_util_decode_transaction_request.go
 model_utxo.go
 model_utxo_response.go
 model_verify_signed_message_request.go
