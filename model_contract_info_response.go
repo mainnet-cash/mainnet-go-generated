@@ -9,10 +9,13 @@
  */
 
 package openapi
-// ContractResponse struct for ContractResponse
-type ContractResponse struct {
+// ContractInfoResponse struct for ContractInfoResponse
+type ContractInfoResponse struct {
 	// serialized contract 
 	ContractId string `json:"contractId,omitempty"`
-	// The funding address for the contract
-	Cashaddr *interface{} `json:"cashaddr,omitempty"`
+	// The smart contract in cashscript syntax 
+	Script string `json:"script,omitempty"`
+	// Parameters passed when the contract was created
+	Parameters []string `json:"parameters,omitempty"`
+	Cashaddr string `json:"cashaddr,omitempty"`
 }

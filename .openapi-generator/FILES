@@ -22,6 +22,8 @@ docs/ContractApi.md
 docs/ContractEscrowApi.md
 docs/ContractFnRequest.md
 docs/ContractFnResponse.md
+docs/ContractInfoRequest.md
+docs/ContractInfoResponse.md
 docs/ContractRequest.md
 docs/ContractResponse.md
 docs/ConvertRequest.md
@@ -105,6 +107,8 @@ model_cashscript_receipt.go
 model_contract.go
 model_contract_fn_request.go
 model_contract_fn_response.go
+model_contract_info_request.go
+model_contract_info_response.go
 model_contract_request.go
 model_contract_response.go
 model_convert_request.go

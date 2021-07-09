@@ -5,6 +5,7 @@ All URIs are relative to *https://rest-unstable.mainnet.cash*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ContractFn**](ContractApi.md#ContractFn) | **Post** /contract/call | Call a method on a contract
+[**ContractInfo**](ContractApi.md#ContractInfo) | **Post** /contract/info | Get information about a contract from the contractId
 [**ContractUtxos**](ContractApi.md#ContractUtxos) | **Post** /contract/utxos | List specific utxos on any contract
 [**CreateContract**](ContractApi.md#CreateContract) | **Post** /contract/create | Create a cashscript contract
 
@@ -27,6 +28,38 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ContractFnResponse**](ContractFnResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ContractInfo
+
+> ContractInfoResponse ContractInfo(ctx, contractInfoRequest)
+
+Get information about a contract from the contractId
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**contractInfoRequest** | [**ContractInfoRequest**](ContractInfoRequest.md)| Request parsed information regarding a contract from the contractId | 
+
+### Return type
+
+[**ContractInfoResponse**](ContractInfoResponse.md)
 
 ### Authorization
 

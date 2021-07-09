@@ -9,7 +9,8 @@
  */
 
 package openapi
-// UtxoResponse struct for UtxoResponse
-type UtxoResponse struct {
-	Utxos []Utxo `json:"utxos,omitempty"`
+// ContractInfoRequest struct for ContractInfoRequest
+type ContractInfoRequest struct {
+	// serialized contract 
+	ContractId string `json:"contractId,omitempty"`
 }
