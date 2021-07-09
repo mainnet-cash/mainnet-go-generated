@@ -407,7 +407,7 @@ Name | Type | Description  | Notes
 
 ## SlpTokenInfo
 
-> SlpTokenInfoResponseItem SlpTokenInfo(ctx, slpTokenInfoRequest)
+> SlpTokenInfoResponse SlpTokenInfo(ctx, slpTokenInfoRequest)
 
 Get information about the token
 
@@ -421,7 +421,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SlpTokenInfoResponseItem**](SlpTokenInfoResponseItem.md)
+[**SlpTokenInfoResponse**](SlpTokenInfoResponse.md)
 
 ### Authorization
 

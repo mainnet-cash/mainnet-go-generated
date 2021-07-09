@@ -70,7 +70,7 @@ docs/SlpSendRequestItem.md
 docs/SlpSendRequestOptions.md
 docs/SlpSendResponse.md
 docs/SlpTokenInfoRequest.md
-docs/SlpTokenInfoResponseItem.md
+docs/SlpTokenInfoResponse.md
 docs/SlpUtxo.md
 docs/SlpUtxoResponse.md
 docs/UnitType.md
@@ -151,7 +151,7 @@ model_slp_send_request_item.go
 model_slp_send_request_options.go
 model_slp_send_response.go
 model_slp_token_info_request.go
-model_slp_token_info_response_item.go
+model_slp_token_info_response.go
 model_slp_utxo.go
 model_slp_utxo_response.go
 model_unit_type.go
