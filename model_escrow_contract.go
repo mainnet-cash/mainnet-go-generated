@@ -9,10 +9,8 @@
  */
 
 package openapi
-// ContractResponse struct for ContractResponse
-type ContractResponse struct {
-	// serialized contract 
-	ContractId string `json:"contractId,omitempty"`
-	// The funding address for the contract
-	Cashaddr *interface{} `json:"cashaddr,omitempty"`
+// EscrowContract struct for EscrowContract
+type EscrowContract struct {
+	// serialized escrow contract 
+	EscrowContractId string `json:"escrowContractId"`
 }

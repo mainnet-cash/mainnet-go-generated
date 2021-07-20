@@ -35,8 +35,12 @@ docs/ElectrumRawTransactionScriptSig.md
 docs/ElectrumRawTransactionVin.md
 docs/ElectrumRawTransactionVout.md
 docs/Error.md
+docs/EscrowContract.md
 docs/EscrowFnRequest.md
+docs/EscrowInfoRequest.md
+docs/EscrowInfoResponse.md
 docs/EscrowRequest.md
+docs/EscrowResponse.md
 docs/FaucetApi.md
 docs/GetAddressesResponse.md
 docs/GetTestnetBchRequest.md
@@ -120,8 +124,12 @@ model_electrum_raw_transaction_script_sig.go
 model_electrum_raw_transaction_vin.go
 model_electrum_raw_transaction_vout.go
 model_error.go
+model_escrow_contract.go
 model_escrow_fn_request.go
+model_escrow_info_request.go
+model_escrow_info_response.go
 model_escrow_request.go
+model_escrow_response.go
 model_get_addresses_response.go
 model_get_testnet_bch_request.go
 model_get_testnet_bch_response.go
