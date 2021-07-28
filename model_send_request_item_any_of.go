@@ -9,8 +9,8 @@
  */
 
 package openapi
-// SendRequestItem struct for SendRequestItem
-type SendRequestItem struct {
+// SendRequestItemAnyOf Send request in object notation
+type SendRequestItemAnyOf struct {
 	Cashaddr string `json:"cashaddr"`
 	Value float32 `json:"value"`
 }

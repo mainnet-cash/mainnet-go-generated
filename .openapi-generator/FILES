@@ -51,11 +51,13 @@ docs/MaxAmountToSendRequest.md
 docs/MineApi.md
 docs/MineRequest.md
 docs/NetworkEnum.md
+docs/OpReturnData.md
 docs/ScalableVectorGraphic.md
 docs/SendMaxRequest.md
 docs/SendMaxResponse.md
 docs/SendRequest.md
 docs/SendRequestItem.md
+docs/SendRequestItemAnyOf.md
 docs/SendRequestOptions.md
 docs/SendResponse.md
 docs/SerializedWallet.md
@@ -138,11 +140,13 @@ model_get_testnet_slp_response.go
 model_max_amount_to_send_request.go
 model_mine_request.go
 model_network_enum.go
+model_op_return_data.go
 model_scalable_vector_graphic.go
 model_send_max_request.go
 model_send_max_response.go
 model_send_request.go
 model_send_request_item.go
+model_send_request_item_any_of.go
 model_send_request_options.go
 model_send_response.go
 model_serialized_wallet.go

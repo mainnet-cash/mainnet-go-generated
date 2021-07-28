@@ -1,4 +1,4 @@
-# SendRequestItem
+# SendRequestItemAnyOf
 
 ## Properties
 
