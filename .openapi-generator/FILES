@@ -48,6 +48,10 @@ docs/FaucetApi.md
 docs/GetAddressesResponse.md
 docs/GetTestnetBchRequest.md
 docs/GetTestnetBchResponse.md
+docs/GetTestnetSbchRequest.md
+docs/GetTestnetSbchResponse.md
+docs/GetTestnetSep20Request.md
+docs/GetTestnetSep20Response.md
 docs/GetTestnetSlpRequest.md
 docs/GetTestnetSlpResponse.md
 docs/MaxAmountToSendRequest.md
@@ -103,6 +107,7 @@ docs/SmartBchSendRequestItem.md
 docs/SmartBchSendRequestItemAnyOf.md
 docs/SmartBchSendRequestOptions.md
 docs/SmartBchSendResponseItem.md
+docs/SmartBchSep20AllBalancesRequest.md
 docs/SmartBchSep20BalanceRequest.md
 docs/SmartBchSep20BalanceResponse.md
 docs/SmartBchSep20GenesisRequest.md
@@ -172,6 +177,10 @@ model_escrow_response.go
 model_get_addresses_response.go
 model_get_testnet_bch_request.go
 model_get_testnet_bch_response.go
+model_get_testnet_sbch_request.go
+model_get_testnet_sbch_response.go
+model_get_testnet_sep20_request.go
+model_get_testnet_sep20_response.go
 model_get_testnet_slp_request.go
 model_get_testnet_slp_response.go
 model_max_amount_to_send_request.go
@@ -226,6 +235,7 @@ model_smart_bch_send_request_item.go
 model_smart_bch_send_request_item_any_of.go
 model_smart_bch_send_request_options.go
 model_smart_bch_send_response_item.go
+model_smart_bch_sep20_all_balances_request.go
 model_smart_bch_sep20_balance_request.go
 model_smart_bch_sep20_balance_response.go
 model_smart_bch_sep20_genesis_request.go
