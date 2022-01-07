@@ -12,6 +12,7 @@ api_smartbch_sep20.go
 api_smartbch_wallet.go
 api_util.go
 api_wallet.go
+api_wallet_signed.go
 api_wallet_slp.go
 api_wallet_util.go
 api_webhook.go
@@ -46,6 +47,7 @@ docs/EscrowRequest.md
 docs/EscrowResponse.md
 docs/FaucetApi.md
 docs/GetAddressesResponse.md
+docs/GetAddrsByXpubKeyRequest.md
 docs/GetTestnetBchRequest.md
 docs/GetTestnetBchResponse.md
 docs/GetTestnetSbchRequest.md
@@ -54,6 +56,8 @@ docs/GetTestnetSep20Request.md
 docs/GetTestnetSep20Response.md
 docs/GetTestnetSlpRequest.md
 docs/GetTestnetSlpResponse.md
+docs/GetXpubKeyInfoRequest.md
+docs/GetXpubKeyInfoResponse.md
 docs/MaxAmountToSendRequest.md
 docs/MineApi.md
 docs/MineRequest.md
@@ -138,6 +142,7 @@ docs/WalletNamedExistsRequest.md
 docs/WalletReplaceNamedRequest.md
 docs/WalletRequest.md
 docs/WalletResponse.md
+docs/WalletSignedApi.md
 docs/WalletSlpApi.md
 docs/WalletType.md
 docs/WalletUtilApi.md
@@ -145,6 +150,9 @@ docs/WatchAddressRequest.md
 docs/WatchAddressResponse.md
 docs/WebhookApi.md
 docs/Wif.md
+docs/XPubKey.md
+docs/XPubKeyRequest.md
+docs/XPubKeyResponse.md
 docs/ZeroBalanceResponse.md
 git_push.sh
 go.mod
@@ -175,6 +183,7 @@ model_escrow_info_response.go
 model_escrow_request.go
 model_escrow_response.go
 model_get_addresses_response.go
+model_get_addrs_by_xpub_key_request.go
 model_get_testnet_bch_request.go
 model_get_testnet_bch_response.go
 model_get_testnet_sbch_request.go
@@ -183,6 +192,8 @@ model_get_testnet_sep20_request.go
 model_get_testnet_sep20_response.go
 model_get_testnet_slp_request.go
 model_get_testnet_slp_response.go
+model_get_xpub_key_info_request.go
+model_get_xpub_key_info_response.go
 model_max_amount_to_send_request.go
 model_mine_request.go
 model_network_enum.go
@@ -265,5 +276,8 @@ model_wallet_type.go
 model_watch_address_request.go
 model_watch_address_response.go
 model_wif.go
+model_x_pub_key.go
+model_x_pub_key_request.go
+model_x_pub_key_response.go
 model_zero_balance_response.go
 response.go
