@@ -8,12 +8,14 @@ Method | HTTP request | Description
 [**CreateWallet**](WalletApi.md#CreateWallet) | **Post** /wallet/create | create a new wallet
 [**DepositAddress**](WalletApi.md#DepositAddress) | **Post** /wallet/deposit_address | Get a deposit address in cash address format
 [**DepositQr**](WalletApi.md#DepositQr) | **Post** /wallet/deposit_qr | Get receiving cash address as a qrcode
+[**EncodeTransaction**](WalletApi.md#EncodeTransaction) | **Post** /wallet/encode_transaction | Encode and sign a transaction given a list of sendRequests, options and estimate fees
 [**Info**](WalletApi.md#Info) | **Post** /wallet/info | Get information about a wallet
 [**MaxAmountToSend**](WalletApi.md#MaxAmountToSend) | **Post** /wallet/max_amount_to_send | Get maximum spendable amount
 [**NamedExists**](WalletApi.md#NamedExists) | **Post** /wallet/named_exists | Check if a named wallet already exists
 [**ReplaceNamed**](WalletApi.md#ReplaceNamed) | **Post** /wallet/replace_named | Replace (recover) named wallet with a new walletId. If wallet with a provided name does not exist yet, it will be creted with a &#x60;walletId&#x60; supplied If wallet exists it will be overwritten without exception 
 [**Send**](WalletApi.md#Send) | **Post** /wallet/send | Send some amount to a given address
 [**SendMax**](WalletApi.md#SendMax) | **Post** /wallet/send_max | Send all available funds to a given address
+[**SubmitTransaction**](WalletApi.md#SubmitTransaction) | **Post** /wallet/submit_transaction | submit an encoded and signed transaction to the network
 [**Utxos**](WalletApi.md#Utxos) | **Post** /wallet/utxo | Get detailed information about unspent outputs (utxos)
 [**Xpubkeys**](WalletApi.md#Xpubkeys) | **Post** /wallet/xpubkeys | A set of xpubkeys and paths for the wallet.
 
@@ -132,6 +134,38 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ScalableVectorGraphic**](ScalableVectorGraphic.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## EncodeTransaction
+
+> EncodeTransactionResponse EncodeTransaction(ctx, sendRequest)
+
+Encode and sign a transaction given a list of sendRequests, options and estimate fees
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**sendRequest** | [**SendRequest**](SendRequest.md)| encode a transaction | 
+
+### Return type
+
+[**EncodeTransactionResponse**](EncodeTransactionResponse.md)
 
 ### Authorization
 
@@ -324,6 +358,38 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**SendMaxResponse**](SendMaxResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SubmitTransaction
+
+> SubmitTransactionResponse SubmitTransaction(ctx, submitTransactionRequest)
+
+submit an encoded and signed transaction to the network
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**submitTransactionRequest** | [**SubmitTransactionRequest**](SubmitTransactionRequest.md)| submit an encoded and signed transaction to the network | 
+
+### Return type
+
+[**SubmitTransactionResponse**](SubmitTransactionResponse.md)
 
 ### Authorization
 

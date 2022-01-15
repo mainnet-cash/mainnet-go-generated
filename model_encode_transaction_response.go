@@ -9,7 +9,8 @@
  */
 
 package openapi
-// XPubKeyResponse struct for XPubKeyResponse
-type XPubKeyResponse struct {
-	Xpubkeys []XPubKey `json:"xpubkeys,omitempty"`
+// EncodeTransactionResponse struct for EncodeTransactionResponse
+type EncodeTransactionResponse struct {
+	// encoded transaction in hex format
+	TransactionHex string `json:"transactionHex"`
 }

@@ -38,6 +38,7 @@ docs/ElectrumRawTransactionScriptPubKey.md
 docs/ElectrumRawTransactionScriptSig.md
 docs/ElectrumRawTransactionVin.md
 docs/ElectrumRawTransactionVout.md
+docs/EncodeTransactionResponse.md
 docs/Error.md
 docs/EscrowContract.md
 docs/EscrowFnRequest.md
@@ -127,6 +128,8 @@ docs/SmartBchTransactionReceipt.md
 docs/SmartbchContractApi.md
 docs/SmartbchSep20Api.md
 docs/SmartbchWalletApi.md
+docs/SubmitTransactionRequest.md
+docs/SubmitTransactionResponse.md
 docs/UnitType.md
 docs/UtilApi.md
 docs/UtilDecodeTransactionRequest.md
@@ -175,6 +178,7 @@ model_electrum_raw_transaction_script_pub_key.go
 model_electrum_raw_transaction_script_sig.go
 model_electrum_raw_transaction_vin.go
 model_electrum_raw_transaction_vout.go
+model_encode_transaction_response.go
 model_error.go
 model_escrow_contract.go
 model_escrow_fn_request.go
@@ -259,6 +263,8 @@ model_smart_bch_sep20_send_request_item.go
 model_smart_bch_sep20_token_info_request.go
 model_smart_bch_sep20_token_info_response.go
 model_smart_bch_transaction_receipt.go
+model_submit_transaction_request.go
+model_submit_transaction_response.go
 model_unit_type.go
 model_util_decode_transaction_request.go
 model_utxo.go

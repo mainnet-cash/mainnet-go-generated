@@ -9,7 +9,8 @@
  */
 
 package openapi
-// XPubKeyResponse struct for XPubKeyResponse
-type XPubKeyResponse struct {
-	Xpubkeys []XPubKey `json:"xpubkeys,omitempty"`
+// SubmitTransactionResponse struct for SubmitTransactionResponse
+type SubmitTransactionResponse struct {
+	// The hash of a transaction
+	TxId string `json:"txId,omitempty"`
 }
