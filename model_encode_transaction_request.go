@@ -9,11 +9,11 @@
  */
 
 package openapi
-// SmartBchSendRequest struct for SmartBchSendRequest
-type SmartBchSendRequest struct {
+// EncodeTransactionRequest struct for EncodeTransactionRequest
+type EncodeTransactionRequest struct {
 	// The walletId of the source of funds to spend from. 
-	WalletId string `json:"walletId"`
-	To AnyOfSmartBchSendRequestItemarray `json:"to"`
-	Options SmartBchSendRequestOptions `json:"options,omitempty"`
-	Overrides SmartBchOverrides `json:"overrides,omitempty"`
+	WalletId string `json:"walletId,omitempty"`
+	DiscardChange bool `json:"discardChange,omitempty"`
+	To AnyOfSendRequestItemarrayOpReturnData `json:"to,omitempty"`
+	Options SendRequestOptions `json:"options,omitempty"`
 }

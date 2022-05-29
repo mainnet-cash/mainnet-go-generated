@@ -151,7 +151,7 @@ Name | Type | Description  | Notes
 
 ## EncodeTransaction
 
-> EncodeTransactionResponse EncodeTransaction(ctx, sendRequest)
+> EncodeTransactionResponse EncodeTransaction(ctx, encodeTransactionRequest)
 
 Encode and sign a transaction given a list of sendRequests, options and estimate fees
 
@@ -161,7 +161,7 @@ Encode and sign a transaction given a list of sendRequests, options and estimate
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**sendRequest** | [**SendRequest**](SendRequest.md)| encode a transaction | 
+**encodeTransactionRequest** | [**EncodeTransactionRequest**](EncodeTransactionRequest.md)| encode a transaction | 
 
 ### Return type
 

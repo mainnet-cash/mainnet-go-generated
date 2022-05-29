@@ -12,7 +12,7 @@ info:
     url: https://github.com/mainnet-cash/mainnet-js/blob/master/LICENSE
   termsOfService: https://mainnet.cash/terms/
   title: Mainnet Cash
-  version: 0.4.40
+  version: 0.5.1
 externalDocs:
   description: Find out more about mainnet-js
   url: https://mainnet.cash
@@ -764,7 +764,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SendRequest'
+              $ref: '#/components/schemas/EncodeTransactionRequest'
         description: encode a transaction
         required: true
       responses:
@@ -2887,6 +2887,16 @@ components:
       example: 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:5000
       type: string
     SendRequestOptions:
+      example:
+        slpAware: true
+        queryBalance: false
+        feePaidBy: change
+        changeAddress: bchtest:qzd0tv75gx6y0zspzwqpgkwkq0n72g8fsq2zch26s2
+        slpSemiAware: true
+        awaitTransactionPropagation: false
+        utxoIds:
+        - 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:5000
+        - 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:5000
       properties:
         utxoIds:
           items:
@@ -3041,6 +3051,37 @@ components:
         balance:
           $ref: '#/components/schemas/ZeroBalanceResponse'
       type: object
+    EncodeTransactionRequest:
+      example:
+        walletId: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+        discardChange: false
+        options:
+          slpAware: true
+          queryBalance: false
+          feePaidBy: change
+          changeAddress: bchtest:qzd0tv75gx6y0zspzwqpgkwkq0n72g8fsq2zch26s2
+          slpSemiAware: true
+          awaitTransactionPropagation: false
+          utxoIds:
+          - 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:5000
+          - 1e6442a0d3548bb4f917721184ac1cb163ddf324e2c09f55c46ff0ba521cb89f:0:5000
+        to: ""
+      properties:
+        walletId:
+          description: |
+            The walletId of the source of funds to spend from.
+          example: wif:testnet:cNfsPtqN2bMRS7vH5qd8tR8GMvgXyL5BjnGAKgZ8DYEiCrCCQcP6
+          type: string
+        discardChange:
+          default: false
+          type: boolean
+        to:
+          anyOf:
+          - $ref: '#/components/schemas/SendRequestItem'
+          - $ref: '#/components/schemas/SendRequestArray'
+          - $ref: '#/components/schemas/OpReturnData'
+        options:
+          $ref: '#/components/schemas/SendRequestOptions'
     EncodeTransactionResponse:
       example:
         transactionHex: transactionHex
