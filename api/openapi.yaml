@@ -12,7 +12,7 @@ info:
     url: https://github.com/mainnet-cash/mainnet-js/blob/master/LICENSE
   termsOfService: https://mainnet.cash/terms/
   title: Mainnet Cash
-  version: 0.5.4
+  version: 0.5.7
 externalDocs:
   description: Find out more about mainnet-js
   url: https://mainnet.cash
@@ -4390,8 +4390,8 @@ components:
       example:
         address: 0xdac17f958d2ee523a2206206994597c13d831ec7
         abi: |
-          - "function name() view returns (string)"
-          - "function symbol() view returns (string)"
+          - ["function name() view returns (string)"]
+          - ["function symbol() view returns (string)"]
       properties:
         address:
           description: Address of an already deployed contract
@@ -4401,8 +4401,8 @@ components:
           description: Contract ABI (Application Binary Interface), which describes
             the contract interaction
           example: |
-            - "function name() view returns (string)"
-            - "function symbol() view returns (string)"
+            - ["function name() view returns (string)"]
+            - ["function symbol() view returns (string)"]
           items:
             type: string
           type: array
@@ -4638,8 +4638,8 @@ components:
         address: address
         contractId: contractId
         abi: |
-          - "function name() view returns (string)"
-          - "function symbol() view returns (string)"
+          - ["function name() view returns (string)"]
+          - ["function symbol() view returns (string)"]
         parameters:
         - MyToken
         - MTK
@@ -4663,8 +4663,8 @@ components:
           description: Contract ABI (Application Binary Interface), which describes
             the contract interaction
           example: |
-            - "function name() view returns (string)"
-            - "function symbol() view returns (string)"
+            - ["function name() view returns (string)"]
+            - ["function symbol() view returns (string)"]
           items:
             type: string
           type: array
