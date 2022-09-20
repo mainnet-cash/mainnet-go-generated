@@ -9,10 +9,7 @@
  */
 
 package openapi
-// SmartBchSep20TokenInfoRequest struct for SmartBchSep20TokenInfoRequest
-type SmartBchSep20TokenInfoRequest struct {
-	// serialized wallet
-	WalletId string `json:"walletId"`
-	// Token unique hexadecimal identifier
-	TokenId string `json:"tokenId"`
+// HistoryResponse struct for HistoryResponse
+type HistoryResponse struct {
+	Transactions []TransactionHistoryItem `json:"transactions,omitempty"`
 }

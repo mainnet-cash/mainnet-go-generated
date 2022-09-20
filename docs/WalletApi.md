@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**DepositAddress**](WalletApi.md#DepositAddress) | **Post** /wallet/deposit_address | Get a deposit address in cash address format
 [**DepositQr**](WalletApi.md#DepositQr) | **Post** /wallet/deposit_qr | Get receiving cash address as a qrcode
 [**EncodeTransaction**](WalletApi.md#EncodeTransaction) | **Post** /wallet/encode_transaction | Encode and sign a transaction given a list of sendRequests, options and estimate fees
+[**GetHistory**](WalletApi.md#GetHistory) | **Post** /wallet/get_history | Get a simplified list of transactions related to a wallet
 [**Info**](WalletApi.md#Info) | **Post** /wallet/info | Get information about a wallet
 [**MaxAmountToSend**](WalletApi.md#MaxAmountToSend) | **Post** /wallet/max_amount_to_send | Get maximum spendable amount
 [**NamedExists**](WalletApi.md#NamedExists) | **Post** /wallet/named_exists | Check if a named wallet already exists
@@ -166,6 +167,38 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**EncodeTransactionResponse**](EncodeTransactionResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetHistory
+
+> HistoryResponse GetHistory(ctx, historyRequest)
+
+Get a simplified list of transactions related to a wallet
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**historyRequest** | [**HistoryRequest**](HistoryRequest.md)| Request for a wallet history  | 
+
+### Return type
+
+[**HistoryResponse**](HistoryResponse.md)
 
 ### Authorization
 

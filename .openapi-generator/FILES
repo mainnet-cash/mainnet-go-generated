@@ -60,6 +60,8 @@ docs/GetTestnetSlpRequest.md
 docs/GetTestnetSlpResponse.md
 docs/GetXpubKeyInfoRequest.md
 docs/GetXpubKeyInfoResponse.md
+docs/HistoryRequest.md
+docs/HistoryResponse.md
 docs/MaxAmountToSendRequest.md
 docs/MineApi.md
 docs/MineRequest.md
@@ -131,6 +133,7 @@ docs/SmartbchSep20Api.md
 docs/SmartbchWalletApi.md
 docs/SubmitTransactionRequest.md
 docs/SubmitTransactionResponse.md
+docs/TransactionHistoryItem.md
 docs/UnitType.md
 docs/UtilApi.md
 docs/UtilDecodeTransactionRequest.md
@@ -200,6 +203,8 @@ model_get_testnet_slp_request.go
 model_get_testnet_slp_response.go
 model_get_xpub_key_info_request.go
 model_get_xpub_key_info_response.go
+model_history_request.go
+model_history_response.go
 model_max_amount_to_send_request.go
 model_mine_request.go
 model_network_enum.go
@@ -267,6 +272,7 @@ model_smart_bch_sep20_token_info_response.go
 model_smart_bch_transaction_receipt.go
 model_submit_transaction_request.go
 model_submit_transaction_response.go
+model_transaction_history_item.go
 model_unit_type.go
 model_util_decode_transaction_request.go
 model_utxo.go
