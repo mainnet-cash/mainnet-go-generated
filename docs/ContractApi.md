@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 
 ## ContractUtxos
 
-> UtxoResponse ContractUtxos(ctx, contract)
+> []Utxo ContractUtxos(ctx, contract)
 
 List specific utxos on any contract
 
@@ -93,7 +93,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UtxoResponse**](UtxoResponse.md)
+[**[]Utxo**](Utxo.md)
 
 ### Authorization
 

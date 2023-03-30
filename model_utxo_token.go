@@ -9,13 +9,14 @@
  */
 
 package openapi
-// TokenMintRequest struct for TokenMintRequest
-type TokenMintRequest struct {
-	// The walletId to make a request to.
-	WalletId string `json:"walletId"`
+// UtxoToken struct for UtxoToken
+type UtxoToken struct {
+	// Fungible token amount to send
+	Amount float32 `json:"amount,omitempty"`
 	// Token unique hexadecimal identifier, also the id of the token creation transaction
-	TokenId string `json:"tokenId"`
-	Requests []TokenMintRequestRequests `json:"requests,omitempty"`
-	// if minting token contains fungible amount, deduct from it by amount of minted tokens
-	DeductTokenAmount bool `json:"deductTokenAmount,omitempty"`
+	TokenId string `json:"tokenId,omitempty"`
+	// Capability of the NFT
+	Capability *string `json:"capability,omitempty"`
+	// Token commitment message, hexadecimal encoded, 40 bytes max length
+	Commitment *string `json:"commitment,omitempty"`
 }

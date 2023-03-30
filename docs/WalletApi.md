@@ -354,7 +354,7 @@ Name | Type | Description  | Notes
 
 ## GetTokenUtxos
 
-> UtxoResponse GetTokenUtxos(ctx, inlineObject)
+> []Utxo GetTokenUtxos(ctx, inlineObject)
 
 Get token utxos
 
@@ -368,7 +368,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UtxoResponse**](UtxoResponse.md)
+[**[]Utxo**](Utxo.md)
 
 ### Authorization
 
@@ -770,7 +770,7 @@ Name | Type | Description  | Notes
 
 ## Utxos
 
-> UtxoResponse Utxos(ctx, serializedWallet)
+> []Utxo Utxos(ctx, serializedWallet)
 
 Get detailed information about unspent outputs (utxos)
 
@@ -784,7 +784,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UtxoResponse**](UtxoResponse.md)
+[**[]Utxo**](Utxo.md)
 
 ### Authorization
 

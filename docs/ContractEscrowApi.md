@@ -109,7 +109,7 @@ Name | Type | Description  | Notes
 
 ## EscrowUtxos
 
-> UtxoResponse EscrowUtxos(ctx, escrowContract)
+> []Utxo EscrowUtxos(ctx, escrowContract)
 
 List specific utxos on any escrow contract
 
@@ -125,7 +125,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**UtxoResponse**](UtxoResponse.md)
+[**[]Utxo**](Utxo.md)
 
 ### Authorization
 
