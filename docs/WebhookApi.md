@@ -20,7 +20,7 @@ Create a webhook to watch cashaddress balance and transactions.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**watchAddressRequest** | [**WatchAddressRequest**](WatchAddressRequest.md)| Based on the &#39;type&#39; parameter the webhook will be triggered to either post balance or raw transactions to the &#39;url&#39;: - &#39;transaction:in&#39; for incoming BCH transactions - &#39;transaction:out&#39; for outgoing BCH transactions - &#39;transaction:in,out&#39; both for incoming and outgoing BCH transactions - &#39;balance&#39; will post the object according to &#39;BalanceResponse&#39; schema - &#39;slptransaction:in&#39; for incoming SLP transactions - &#39;slptransaction:out&#39; for outgoing SLP transactions - &#39;slptransaction:in,out&#39; both for incoming and outgoing SLP transactions - &#39;slpbalance&#39; will post the object according to &#39;SlpBalanceResponse&#39; schema  &#39;tokenId&#39; parameter is mandatory when using SLP webhooks.  | 
+**watchAddressRequest** | [**WatchAddressRequest**](WatchAddressRequest.md)| Based on the &#39;type&#39; parameter the webhook will be triggered to either post balance or raw transactions to the &#39;url&#39;: - &#39;transaction:in&#39; for incoming BCH transactions - &#39;transaction:out&#39; for outgoing BCH transactions - &#39;transaction:in,out&#39; both for incoming and outgoing BCH transactions - &#39;balance&#39; will post the object according to &#39;BalanceResponse&#39; schema  | 
 
 ### Return type
 
