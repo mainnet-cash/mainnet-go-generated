@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**EncodeTransaction**](WalletApi.md#EncodeTransaction) | **Post** /wallet/encode_transaction | Encode and sign a transaction given a list of sendRequests, options and estimate fees
 [**GetAllNftTokenBalances**](WalletApi.md#GetAllNftTokenBalances) | **Post** /wallet/get_all_nft_token_balances | Get non-fungible token balance
 [**GetAllTokenBalances**](WalletApi.md#GetAllTokenBalances) | **Post** /wallet/get_all_token_balances | Get non-fungible token balance
-[**GetHistory**](WalletApi.md#GetHistory) | **Post** /wallet/get_history | Get a simplified list of transactions related to a wallet
+[**GetHistory**](WalletApi.md#GetHistory) | **Post** /wallet/get_history | Get a list of transactions related to a wallet
 [**GetNftTokenBalance**](WalletApi.md#GetNftTokenBalance) | **Post** /wallet/get_nft_token_balance | Get non-fungible token balance
 [**GetTokenBalance**](WalletApi.md#GetTokenBalance) | **Post** /wallet/get_token_balance | Get fungible token balance
 [**GetTokenUtxos**](WalletApi.md#GetTokenUtxos) | **Post** /wallet/get_token_utxos | Get token utxos
@@ -258,9 +258,9 @@ Name | Type | Description  | Notes
 
 ## GetHistory
 
-> HistoryResponse GetHistory(ctx, historyRequest)
+> []TransactionHistoryItem GetHistory(ctx, historyRequest)
 
-Get a simplified list of transactions related to a wallet
+Get a list of transactions related to a wallet
 
 ### Required Parameters
 
@@ -268,11 +268,11 @@ Get a simplified list of transactions related to a wallet
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**historyRequest** | [**HistoryRequest**](HistoryRequest.md)| Request for a wallet history  | 
+**historyRequest** | [**HistoryRequest**](HistoryRequest.md)| Gets transaction history of this wallet with most data decoded and ready to present to user   Note: balance calculations are valid only if querying to the blockchain tip (&#x60;toHeight&#x60; &#x3D;&#x3D;&#x3D; -1, &#x60;count&#x60; &#x3D;&#x3D;&#x3D; -1)   Note: this method is heavy on network calls, if invoked in browser use of cache is advised, @see &#x60;Config.UseLocalStorageCache&#x60;   Note: this method tries to recreate the history tab view of Electron Cash wallet, however, it may not be 100% accurate if the tnransaction value changes are the same in the same block (ordering)  | 
 
 ### Return type
 
-[**HistoryResponse**](HistoryResponse.md)
+[**[]TransactionHistoryItem**](TransactionHistoryItem.md)
 
 ### Authorization
 

@@ -9,13 +9,12 @@
  */
 
 package openapi
-// TokenMintRequest struct for TokenMintRequest
-type TokenMintRequest struct {
-	// The walletId to make a request to.
-	WalletId string `json:"walletId"`
+// TokenAmountChange struct for TokenAmountChange
+type TokenAmountChange struct {
 	// Token unique hexadecimal identifier, also the id of the token creation transaction
-	TokenId string `json:"tokenId"`
-	Requests []TokenMintRequestRequests `json:"requests,omitempty"`
-	// if minting token contains fungible amount, deduct from it by amount of minted tokens
-	DeductTokenAmount bool `json:"deductTokenAmount,omitempty"`
+	TokenId string `json:"tokenId,omitempty"`
+	// Fungible token amount
+	Amount float32 `json:"amount,omitempty"`
+	// Non-fungible token amount
+	NftAmount float32 `json:"nftAmount,omitempty"`
 }
