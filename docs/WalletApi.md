@@ -7,7 +7,6 @@ Method | HTTP request | Description
 [**Balance**](WalletApi.md#Balance) | **Post** /wallet/balance | Get total balance for wallet
 [**CreateWallet**](WalletApi.md#CreateWallet) | **Post** /wallet/create | create a new wallet
 [**DepositAddress**](WalletApi.md#DepositAddress) | **Post** /wallet/deposit_address | Get a deposit address in cash address format
-[**DepositQr**](WalletApi.md#DepositQr) | **Post** /wallet/deposit_qr | Get receiving cash address as a qrcode
 [**EncodeTransaction**](WalletApi.md#EncodeTransaction) | **Post** /wallet/encode_transaction | Encode and sign a transaction given a list of sendRequests, options and estimate fees
 [**GetAllNftTokenBalances**](WalletApi.md#GetAllNftTokenBalances) | **Post** /wallet/get_all_nft_token_balances | Get non-fungible token balance
 [**GetAllTokenBalances**](WalletApi.md#GetAllTokenBalances) | **Post** /wallet/get_all_token_balances | Get non-fungible token balance
@@ -24,7 +23,6 @@ Method | HTTP request | Description
 [**SubmitTransaction**](WalletApi.md#SubmitTransaction) | **Post** /wallet/submit_transaction | submit an encoded and signed transaction to the network
 [**TokenBurn**](WalletApi.md#TokenBurn) | **Post** /wallet/token_burn | Perform an explicit token burn
 [**TokenDepositAddress**](WalletApi.md#TokenDepositAddress) | **Post** /wallet/token_deposit_address | Get a token aware deposit address in cash address format
-[**TokenDepositQr**](WalletApi.md#TokenDepositQr) | **Post** /wallet/token_deposit_qr | Get receiving token aware cash address as a qrcode
 [**TokenGenesis**](WalletApi.md#TokenGenesis) | **Post** /wallet/token_genesis | Create new token category
 [**TokenMint**](WalletApi.md#TokenMint) | **Post** /wallet/token_mint | Mint new non-fungible tokens
 [**Utxos**](WalletApi.md#Utxos) | **Post** /wallet/utxo | Get detailed information about unspent outputs (utxos)
@@ -113,38 +111,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**DepositAddressResponse**](DepositAddressResponse.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## DepositQr
-
-> ScalableVectorGraphic DepositQr(ctx, serializedWallet)
-
-Get receiving cash address as a qrcode
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**serializedWallet** | [**SerializedWallet**](SerializedWallet.md)| Request for a deposit cash address as a Quick Response code (qrcode)  | 
-
-### Return type
-
-[**ScalableVectorGraphic**](ScalableVectorGraphic.md)
 
 ### Authorization
 
@@ -657,38 +623,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**DepositAddressResponse**](DepositAddressResponse.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## TokenDepositQr
-
-> ScalableVectorGraphic TokenDepositQr(ctx, serializedWallet)
-
-Get receiving token aware cash address as a qrcode
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**serializedWallet** | [**SerializedWallet**](SerializedWallet.md)| Request for a token aware deposit cash address as a Quick Response code (qrcode)  | 
-
-### Return type
-
-[**ScalableVectorGraphic**](ScalableVectorGraphic.md)
 
 ### Authorization
 

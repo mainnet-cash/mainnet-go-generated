@@ -64,7 +64,6 @@ docs/MineApi.md
 docs/MineRequest.md
 docs/NetworkEnum.md
 docs/OpReturnData.md
-docs/ScalableVectorGraphic.md
 docs/SendMaxRequest.md
 docs/SendMaxResponse.md
 docs/SendRequest.md
@@ -160,7 +159,6 @@ model_max_amount_to_send_request.go
 model_mine_request.go
 model_network_enum.go
 model_op_return_data.go
-model_scalable_vector_graphic.go
 model_send_max_request.go
 model_send_max_response.go
 model_send_request.go
