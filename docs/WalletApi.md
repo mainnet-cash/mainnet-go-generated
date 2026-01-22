@@ -55,7 +55,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: application/json, text/plain
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -160,7 +160,7 @@ Name | Type | Description  | Notes
 
 ## GetAllNftTokenBalances
 
-> map[string]float32 GetAllNftTokenBalances(ctx, inlineObject4)
+> map[string]float32 GetAllNftTokenBalances(ctx, inlineObject5)
 
 Get non-fungible token balance
 
@@ -170,7 +170,7 @@ Get non-fungible token balance
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**inlineObject4** | [**InlineObject4**](InlineObject4.md)|  | 
+**inlineObject5** | [**InlineObject5**](InlineObject5.md)|  | 
 
 ### Return type
 
@@ -192,7 +192,7 @@ Name | Type | Description  | Notes
 
 ## GetAllTokenBalances
 
-> map[string]float32 GetAllTokenBalances(ctx, inlineObject3)
+> map[string]float32 GetAllTokenBalances(ctx, inlineObject4)
 
 Get non-fungible token balance
 
@@ -202,7 +202,7 @@ Get non-fungible token balance
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**inlineObject3** | [**InlineObject3**](InlineObject3.md)|  | 
+**inlineObject4** | [**InlineObject4**](InlineObject4.md)|  | 
 
 ### Return type
 
@@ -256,9 +256,41 @@ Name | Type | Description  | Notes
 
 ## GetNftTokenBalance
 
-> map[string]interface{} GetNftTokenBalance(ctx, inlineObject2)
+> map[string]interface{} GetNftTokenBalance(ctx, inlineObject3)
 
 Get non-fungible token balance
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**inlineObject3** | [**InlineObject3**](InlineObject3.md)|  | 
+
+### Return type
+
+**map[string]interface{}**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetTokenBalance
+
+> map[string]interface{} GetTokenBalance(ctx, inlineObject2)
+
+Get fungible token balance
 
 ### Required Parameters
 
@@ -286,41 +318,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetTokenBalance
-
-> map[string]interface{} GetTokenBalance(ctx, inlineObject1)
-
-Get fungible token balance
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**inlineObject1** | [**InlineObject1**](InlineObject1.md)|  | 
-
-### Return type
-
-**map[string]interface{}**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## GetTokenUtxos
 
-> []Utxo GetTokenUtxos(ctx, inlineObject)
+> []Utxo GetTokenUtxos(ctx, inlineObject1)
 
 Get token utxos
 
@@ -330,7 +330,7 @@ Get token utxos
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**inlineObject** | [**InlineObject**](InlineObject.md)|  | 
+**inlineObject1** | [**InlineObject1**](InlineObject1.md)|  | 
 
 ### Return type
 

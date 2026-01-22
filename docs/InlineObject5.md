@@ -1,10 +1,10 @@
-# InlineObject
+# InlineObject5
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Symbol** | **string** | The currency symbol to get the exchange rate for. | 
+**WalletId** | **string** | The walletId to make a request to. | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

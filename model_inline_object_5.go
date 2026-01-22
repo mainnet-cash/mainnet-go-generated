@@ -9,9 +9,8 @@
  */
 
 package openapi
-// GetAddrsByXpubKeyRequest struct for GetAddrsByXpubKeyRequest
-type GetAddrsByXpubKeyRequest struct {
-	Xpubkey string `json:"xpubkey,omitempty"`
-	Path string `json:"path,omitempty"`
-	Count float32 `json:"count,omitempty"`
+// InlineObject5 struct for InlineObject5
+type InlineObject5 struct {
+	// The walletId to make a request to.
+	WalletId string `json:"walletId"`
 }

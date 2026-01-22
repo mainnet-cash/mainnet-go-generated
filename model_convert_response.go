@@ -9,9 +9,8 @@
  */
 
 package openapi
-// GetAddrsByXpubKeyRequest struct for GetAddrsByXpubKeyRequest
-type GetAddrsByXpubKeyRequest struct {
-	Xpubkey string `json:"xpubkey,omitempty"`
-	Path string `json:"path,omitempty"`
-	Count float32 `json:"count,omitempty"`
+// ConvertResponse struct for ConvertResponse
+type ConvertResponse struct {
+	// Converted value
+	Value float32 `json:"value"`
 }
