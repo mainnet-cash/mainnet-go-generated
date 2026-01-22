@@ -55,7 +55,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: application/json, text/plain
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -160,7 +160,7 @@ Name | Type | Description  | Notes
 
 ## GetAllNftTokenBalances
 
-> map[string]float32 GetAllNftTokenBalances(ctx, inlineObject4)
+> map[string]float32 GetAllNftTokenBalances(ctx, inlineObject5)
 
 Get non-fungible token balance
 
@@ -170,7 +170,7 @@ Get non-fungible token balance
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**inlineObject4** | [**InlineObject4**](InlineObject4.md)|  | 
+**inlineObject5** | [**InlineObject5**](InlineObject5.md)|  | 
 
 ### Return type
 
@@ -192,7 +192,7 @@ Name | Type | Description  | Notes
 
 ## GetAllTokenBalances
 
-> map[string]float32 GetAllTokenBalances(ctx, inlineObject3)
+> map[string]float32 GetAllTokenBalances(ctx, inlineObject4)
 
 Get non-fungible token balance
 
@@ -202,7 +202,7 @@ Get non-fungible token balance
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**inlineObject3** | [**InlineObject3**](InlineObject3.md)|  | 
+**inlineObject4** | [**InlineObject4**](InlineObject4.md)|  | 
 
 ### Return type
 
@@ -256,9 +256,41 @@ Name | Type | Description  | Notes
 
 ## GetNftTokenBalance
 
-> map[string]interface{} GetNftTokenBalance(ctx, inlineObject2)
+> map[string]interface{} GetNftTokenBalance(ctx, inlineObject3)
 
 Get non-fungible token balance
+
+### Required Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**inlineObject3** | [**InlineObject3**](InlineObject3.md)|  | 
+
+### Return type
+
+**map[string]interface{}**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetTokenBalance
+
+> map[string]interface{} GetTokenBalance(ctx, inlineObject2)
+
+Get fungible token balance
 
 ### Required Parameters
 
@@ -286,41 +318,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetTokenBalance
-
-> map[string]interface{} GetTokenBalance(ctx, inlineObject1)
-
-Get fungible token balance
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**inlineObject1** | [**InlineObject1**](InlineObject1.md)|  | 
-
-### Return type
-
-**map[string]interface{}**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## GetTokenUtxos
 
-> []Utxo GetTokenUtxos(ctx, inlineObject)
+> []Utxo GetTokenUtxos(ctx, inlineObject1)
 
 Get token utxos
 
@@ -330,7 +330,7 @@ Get token utxos
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**inlineObject** | [**InlineObject**](InlineObject.md)|  | 
+**inlineObject1** | [**InlineObject1**](InlineObject1.md)|  | 
 
 ### Return type
 
@@ -416,7 +416,7 @@ Name | Type | Description  | Notes
 
 ## NamedExists
 
-> bool NamedExists(ctx, walletNamedExistsRequest)
+> WalletNamedExistsResponse NamedExists(ctx, walletNamedExistsRequest)
 
 Check if a named wallet already exists
 
@@ -430,7 +430,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**bool**
+[**WalletNamedExistsResponse**](WalletNamedExistsResponse.md)
 
 ### Authorization
 
@@ -448,7 +448,7 @@ Name | Type | Description  | Notes
 
 ## ReplaceNamed
 
-> bool ReplaceNamed(ctx, walletReplaceNamedRequest)
+> WalletReplaceNamedResponse ReplaceNamed(ctx, walletReplaceNamedRequest)
 
 Replace (recover) named wallet with a new walletId. If wallet with a provided name does not exist yet, it will be creted with a `walletId` supplied If wallet exists it will be overwritten without exception 
 
@@ -462,7 +462,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**bool**
+[**WalletReplaceNamedResponse**](WalletReplaceNamedResponse.md)
 
 ### Authorization
 
@@ -650,7 +650,7 @@ Create new token category
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**tokenGenesisRequest** | [**TokenGenesisRequest**](TokenGenesisRequest.md)| Create new cashtoken, both funglible and/or non-fungible (NFT) Refer to spec https://github.com/bitjson/cashtokens Newly created token identifier can be found in &#x60;tokenIds&#x60; field.  | 
+**tokenGenesisRequest** | [**TokenGenesisRequest**](TokenGenesisRequest.md)| Create new cashtoken, both funglible and/or non-fungible (NFT) Refer to spec https://github.com/bitjson/cashtokens Newly created token identifier can be found in &#x60;categories&#x60; field.  | 
 
 ### Return type
 
@@ -682,7 +682,7 @@ Mint new non-fungible tokens
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**tokenMintRequest** | [**TokenMintRequest**](TokenMintRequest.md)| Mint new NFT cashtokens using an existing minting token Refer to spec https://github.com/bitjson/cashtokens Newly minted tokens will retain the parent&#39;s &#x60;tokenId&#x60;.  | 
+**tokenMintRequest** | [**TokenMintRequest**](TokenMintRequest.md)| Mint new NFT cashtokens using an existing minting token Refer to spec https://github.com/bitjson/cashtokens Newly minted tokens will retain the parent&#39;s category.  | 
 
 ### Return type
 

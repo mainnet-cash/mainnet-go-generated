@@ -1,11 +1,10 @@
-# ContractResponse
+# InlineObject5
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ContractId** | **string** | serialized contract  | [optional] 
-**Cashaddr** | Pointer to **interface{}** | The funding address for the contract | [optional] 
+**WalletId** | **string** | The walletId to make a request to. | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
