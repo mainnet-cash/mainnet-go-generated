@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Category** | **string** | Token unique hexadecimal identifier, also the id of the token creation transaction | [optional] 
+**TokenId** | **string** | Token unique hexadecimal identifier, also the id of the token creation transaction | [optional] 
 **Amount** | **float32** | Fungible token amount | [optional] 
 **NftAmount** | **float32** | Non-fungible token amount | [optional] 
 

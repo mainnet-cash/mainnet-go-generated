@@ -4,7 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Nft** | Pointer to [**TokenNft**](Token_nft.md) |  | [optional] 
+**Capability** | **string** | Capability of the new NFT | [optional] 
+**Commitment** | **string** | Token commitment message, hexadecimal encoded, 40 bytes max length | [optional] 
 **Cashaddr** | **string** | Cashaddress to send tokens to | [optional] 
 **Value** | **float32** | Satoshi value to send alongside with tokens | [optional] [default to 1000]
 

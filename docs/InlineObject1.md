@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **WalletId** | **string** | The walletId to make a request to. | 
-**Category** | Pointer to **string** | category to filter utxos by, if not set will return utxos from all tokens | [optional] 
+**TokenId** | **string** | tokenId to get balance for | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
