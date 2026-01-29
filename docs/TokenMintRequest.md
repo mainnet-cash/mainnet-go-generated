@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **WalletId** | **string** | The walletId to make a request to. | 
-**TokenId** | **string** | Token unique hexadecimal identifier, also the id of the token creation transaction | 
+**Category** | **string** | Token unique hexadecimal identifier, also the id of the token creation transaction | 
 **Requests** | [**[]TokenMintRequestRequests**](TokenMintRequest_requests.md) |  | [optional] 
 **DeductTokenAmount** | **bool** | if minting token contains fungible amount, deduct from it by amount of minted tokens | [optional] [default to false]
 
