@@ -586,7 +586,7 @@ Perform an explicit token burn
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**tokenBurnRequest** | [**TokenBurnRequest**](TokenBurnRequest.md)| Perform an explicit token burning by spending a token utxo to an OP_RETURN Behaves differently for fungible and non-fungible tokens:  * NFTs are always \&quot;destroyed\&quot;  * FTs&#39; amount is reduced by the amount specified, if 0 FT amount is left and no NFT present, the token is \&quot;destroyed\&quot; Refer to spec https://github.com/bitjson/cashtokens  | 
+**tokenBurnRequest** | [**TokenBurnRequest**](TokenBurnRequest.md)| Perform an explicit token burning by spending one or more token utxos alongside an OP_RETURN. Multiple burn requests across distinct categories can be bundled into a single transaction. Behaves differently for fungible and non-fungible tokens:  * NFTs are always \&quot;destroyed\&quot;  * FTs&#39; amount is reduced by the amount specified, if 0 FT amount is left and no NFT present, the token is \&quot;destroyed\&quot; Refer to spec https://github.com/cashtokens/cashtokens  | 
 
 ### Return type
 
@@ -650,7 +650,7 @@ Create new token category
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**tokenGenesisRequest** | [**TokenGenesisRequest**](TokenGenesisRequest.md)| Create new cashtoken, both funglible and/or non-fungible (NFT) Refer to spec https://github.com/bitjson/cashtokens Newly created token identifier can be found in &#x60;categories&#x60; field.  | 
+**tokenGenesisRequest** | [**TokenGenesisRequest**](TokenGenesisRequest.md)| Create one or more new cashtokens, fungible and/or non-fungible (NFT), in a single transaction. Each genesis request consumes a distinct vout&#x3D;0 input; the spent prevout&#39;s txid becomes the new category. Refer to spec https://github.com/cashtokens/cashtokens Newly created token category identifiers can be found in the &#x60;categories&#x60; field of the response.  | 
 
 ### Return type
 
@@ -682,7 +682,7 @@ Mint new non-fungible tokens
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**tokenMintRequest** | [**TokenMintRequest**](TokenMintRequest.md)| Mint new NFT cashtokens using an existing minting token Refer to spec https://github.com/bitjson/cashtokens Newly minted tokens will retain the parent&#39;s category.  | 
+**tokenMintRequest** | [**TokenMintRequest**](TokenMintRequest.md)| Mint new NFT cashtokens using existing minting tokens. Supports minting across multiple categories in a single transaction. Refer to spec https://github.com/cashtokens/cashtokens Newly minted tokens retain their respective parent category.  | 
 
 ### Return type
 

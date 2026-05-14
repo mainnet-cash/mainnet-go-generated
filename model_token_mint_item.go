@@ -9,15 +9,13 @@
  */
 
 package openapi
-// TokenSendRequest struct for TokenSendRequest
-type TokenSendRequest struct {
-	// Cashaddress to send tokens to
-	Cashaddr string `json:"cashaddr"`
-	// Satoshi value to send alongside with tokens
-	Value float32 `json:"value,omitempty"`
-	// Fungible token amount to send
-	Amount float32 `json:"amount,omitempty"`
-	// Token unique hexadecimal identifier, also the id of the token creation transaction
+// TokenMintItem struct for TokenMintItem
+type TokenMintItem struct {
+	// Token unique hexadecimal identifier, also the id of the token creation transaction. The minting NFT spent for this mint must be of this category.
 	Category string `json:"category"`
 	Nft *TokenNft `json:"nft,omitempty"`
+	// Cashaddress to send tokens to
+	Cashaddr string `json:"cashaddr,omitempty"`
+	// Satoshi value to send alongside with tokens
+	Value float32 `json:"value,omitempty"`
 }

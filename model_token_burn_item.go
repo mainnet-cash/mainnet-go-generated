@@ -9,12 +9,13 @@
  */
 
 package openapi
-// TokenAmountChange struct for TokenAmountChange
-type TokenAmountChange struct {
+// TokenBurnItem struct for TokenBurnItem
+type TokenBurnItem struct {
 	// Token unique hexadecimal identifier, also the id of the token creation transaction
-	Category string `json:"category,omitempty"`
-	// Fungible token amount
+	Category string `json:"category"`
+	Nft *TokenNft `json:"nft,omitempty"`
+	// amount of fungible tokens to burn
 	Amount float32 `json:"amount,omitempty"`
-	// Non-fungible token amount
-	NftAmount float32 `json:"nftAmount,omitempty"`
+	// address to return token and satoshi change to, default to the sender's cashaddr
+	Cashaddr string `json:"cashaddr,omitempty"`
 }

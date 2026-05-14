@@ -64,10 +64,12 @@ docs/SubmitTransactionRequest.md
 docs/SubmitTransactionResponse.md
 docs/Token.md
 docs/TokenAmountChange.md
+docs/TokenBurnItem.md
 docs/TokenBurnRequest.md
+docs/TokenGenesisItem.md
 docs/TokenGenesisRequest.md
+docs/TokenMintItem.md
 docs/TokenMintRequest.md
-docs/TokenMintRequestRequests.md
 docs/TokenNft.md
 docs/TokenSendRequest.md
 docs/TransactionHistoryItem.md
@@ -150,10 +152,12 @@ model_submit_transaction_request.go
 model_submit_transaction_response.go
 model_token.go
 model_token_amount_change.go
+model_token_burn_item.go
 model_token_burn_request.go
+model_token_genesis_item.go
 model_token_genesis_request.go
+model_token_mint_item.go
 model_token_mint_request.go
-model_token_mint_request_requests.go
 model_token_nft.go
 model_token_send_request.go
 model_transaction_history_item.go
